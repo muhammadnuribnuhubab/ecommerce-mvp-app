@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const buttonStyles = cva(
-  'flex justify-center items-center gap-1 md:gap-2 py-3 md:py-4 rounded-full font-semibold text-sm md:text-base cursor-pointer transition-colors',
+  'flex justify-center items-center gap-1 sm:gap-2 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base cursor-pointer transition-colors',
   {
     variants: {
       variant: {

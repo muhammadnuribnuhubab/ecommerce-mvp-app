@@ -7,12 +7,12 @@ import { JSX } from 'react';
 const typographyStyles = cva('tracking-normal', {
   variants: {
     size: {
-      sm: 'text-sm md:text-base',
-      base: 'text-base md:text-lg',
-      lg: 'text-lg md:text-xl',
-      xl: 'text-xl md:text-2xl',
-      '2xl': 'text-2xl md:text-3xl',
-      '3xl': 'text-3xl md:text-4xl',
+      sm: 'text-sm sm:text-base',
+      base: 'text-base sm:text-lg',
+      lg: 'text-lg sm:text-xl',
+      xl: 'text-xl sm:text-2xl',
+      '2xl': 'text-2xl sm:text-3xl',
+      '3xl': 'text-3xl sm:text-4xl',
     },
     weight: {
       normal: 'font-normal',

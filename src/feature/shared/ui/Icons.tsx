@@ -6,7 +6,7 @@ type IconProps = {
   className?: string;
 };
 
-const iconSize = 'size-4.5 md:size-6';
+const iconSize = 'size-4.5 sm:size-6';
 
 export const PlusIcon: React.FC<IconProps> = ({ className = '' }) => {
   return (

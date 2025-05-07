@@ -26,12 +26,12 @@ export const Logo: React.FC<LogoProps> = () => {
   };
 
   return (
-    <div className='flex items-center gap-1 md:gap-2'>
+    <div className='flex items-center gap-1 sm:gap-2'>
       <Link
         href='/'
         onClick={handleClick}
         className={clsx(
-          'flex items-center gap-1 md:gap-2',
+          'flex items-center gap-1 sm:gap-2',
           isPulsing && 'animate-pulse'
         )}
         aria-label='Go to Home page'
