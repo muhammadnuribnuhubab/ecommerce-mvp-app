@@ -1,0 +1,26 @@
+import { ChangeEvent } from 'react';
+
+type CheckboxProps = {
+  checked: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+  required?: boolean;
+};
+
+export const Checkbox = ({
+  checked,
+  onChange,
+  name,
+  required = false,
+}: CheckboxProps) => {
+  return (
+    <input
+      type='checkbox'
+      name={name}
+      checked={checked}
+      onChange={onChange}
+      required={required}
+      className='size-4 accent-primary-300 cursor-pointer'
+    />
+  );
+};

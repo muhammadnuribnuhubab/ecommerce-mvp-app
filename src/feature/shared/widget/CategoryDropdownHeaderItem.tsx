@@ -1,19 +1,19 @@
-// src/feature/shared/ui/CategoryDropdownItem.tsx
+// src/feature/shared/ui/CategoryDropdownHeaderItem.tsx
 
 import clsx from 'clsx';
 import { Typography } from '../ui/Typography';
 
-type CategoryDropdownItemProps = {
+type CategoryDropdownHeaderItemProps = {
   label: string;
   onClick?: () => void;
   className?: string;
 };
 
-export const CategoryDropdownItem = ({
+export const CategoryDropdownHeaderItem = ({
   label,
   onClick,
   className,
-}: CategoryDropdownItemProps) => {
+}: CategoryDropdownHeaderItemProps) => {
   return (
     <button
       onClick={onClick}

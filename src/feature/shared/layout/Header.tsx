@@ -11,7 +11,7 @@ import { CloseAction } from '../widget/CloseAction';
 import { AuthButton } from '../widget/AuthButton';
 import { CartButton } from '../widget/CartButton';
 import { UserActionDropdownList } from '../widget/UserActionDropdownList';
-import { CategoryDropdownList } from '../widget/CategoryDropdownList';
+import { CategoryDropdownHeaderList } from '../widget/CategoryDropdownHeaderList';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +51,7 @@ export const Header = () => {
       <div className='flex items-center justify-between gap-4 container mx-auto'>
         <Logo />
         <div className='flex items-center gap-3'>
-          <CategoryDropdownList />
+          <CategoryDropdownHeaderList />
           <Button
             variant='secondary'
             className='sm:hidden'

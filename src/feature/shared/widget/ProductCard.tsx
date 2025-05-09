@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { StarIcon } from '../ui/Icon';
 import { Typography } from '../ui/Typography';
+import { Rating } from './Rating';
 
 type ProductCardProps = {
   imageUrl: string;
@@ -33,10 +34,7 @@ export const ProductCard = ({
       <div className='p-3 sm:p-4 flex flex-col gap-2'>
         <Typography className='truncate'>{title}</Typography>
         <Typography weight='bold'>{price}</Typography>
-        <div className='flex items-center gap-1'>
-          <StarIcon className='text-[#FFAB0D]' />
-          <Typography>{rating}</Typography>
-        </div>
+        <Rating value={rating} />
       </div>
     </div>
   );
