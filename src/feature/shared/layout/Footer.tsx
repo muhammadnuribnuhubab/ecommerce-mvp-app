@@ -1,3 +1,5 @@
+// src/feature/shared/layout/Footer.tsx
+
 'use client';
 
 import { Logo } from '@/feature/shared/ui/Logo';
@@ -15,7 +17,6 @@ export const Footer = () => {
   return (
     <footer className='w-full py-8 px-4 border-t bg-white border-neutral-300'>
       <div className='container mx-auto flex flex-col lg:flex-row justify-between gap-6'>
-        {/* Logo + Deskripsi */}
         <div className='flex flex-col gap-6 lg:max-w-md'>
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-3'>
@@ -85,7 +86,6 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Navigasi */}
         <div className='flex flex-col gap-4'>
           <Typography as='h2' size='base' color='primary' weight='bold'>
             commercéll

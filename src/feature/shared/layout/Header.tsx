@@ -1,3 +1,5 @@
+// src/feature/shared/layout/Header.tsx
+
 'use client';
 
 import { useState } from 'react';
