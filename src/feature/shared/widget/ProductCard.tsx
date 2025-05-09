@@ -1,7 +1,6 @@
 // src/feature/shared/widget/ProductCard.tsx
 
 import Image from 'next/image';
-import { StarIcon } from '../ui/Icon';
 import { Typography } from '../ui/Typography';
 import { Rating } from './Rating';
 
