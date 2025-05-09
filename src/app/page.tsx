@@ -1,33 +1,17 @@
-// src/app/page.tsx
+'use client';
 
-import { Footer } from '@/feature/shared/layout/Footer';
-import { Header } from '@/feature/shared/layout/Header';
-import { ProductCard } from '@/feature/shared/widget/ProductCart';
+import { Breadcrumb } from '@/feature/shared/widget/BreadCrumb';
 
 export default function Home() {
   return (
-    <div className='flex flex-col min-h-screen  text-primary-200 gap-4 bg-[#eaeaea]'>
-      <Header />
-
-      <ProductCard
-        imageUrl={''}
-        title={'Product Name'}
-        price={'Rp100.000'}
-        rating={4.6}
+    <div className='flex flex-col justify-center items-center min-h-screen gap-4 bg-[#eaeaea]'>
+      <Breadcrumb
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Dashboard', href: '/dashboard' },
+          { label: 'Settings' }, // aktif sekarang
+        ]}
       />
-      <ProductCard
-        imageUrl={''}
-        title={'Product Name'}
-        price={'Rp100.000'}
-        rating={4.6}
-      />
-      <ProductCard
-        imageUrl={''}
-        title={'Product Name'}
-        price={'Rp100.000'}
-        rating={4.6}
-      />
-      <Footer />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Logo } from '@/feature/shared/ui/Logo';
 import { CloseIcon, MenuIcon, SearchIcon } from '../ui/Icon';
 import { Button } from '../ui/Button';
@@ -16,7 +16,19 @@ import { CategoryDropdownList } from '../widget/CategoryDropdownList';
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const isLoggedIn = true;
+  const isLoggedIn = false;
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
 
   const handleMenuClick = () => {
     setIsMenuOpen(true);
@@ -35,7 +47,7 @@ export const Header = () => {
   };
 
   return (
-    <header className='relative z-999 w-full px-4 py-3 bg-white shadow-[0px_0px_20px_0px_#CBCACA40]'>
+    <header className='fixed z-999 w-full px-4 py-3 bg-white shadow-[0px_0px_20px_0px_#CBCACA40]'>
       <div className='flex items-center justify-between gap-4 container mx-auto'>
         <Logo />
         <div className='flex items-center gap-3'>
@@ -81,14 +93,16 @@ export const Header = () => {
       )}
 
       {isMenuOpen && (
-        <div className='absolute inset-0 z-50  container mx-auto p-4 sm:px-0 sm:py-5.5 lg:hidden bg-white'>
-          <CloseAction
-            title='Menu'
-            onClose={handleCloseMenu}
-            className='!size-10'
-          />
-          <div className='flex gap-3 pt-6 sm:pt-10'>
-            {isLoggedIn ? <UserActionDropdownList /> : <AuthButton />}
+        <div className='absolute inset-0 z-50 p-4 sm:px-0 sm:py-5.5 lg:hidden bg-white min-h-screen'>
+          <div className='container mx-auto'>
+            <CloseAction
+              title='Menu'
+              onClose={handleCloseMenu}
+              className='!size-10'
+            />
+            <div className='flex gap-3 pt-6 sm:pt-10 '>
+              {isLoggedIn ? <UserActionDropdownList /> : <AuthButton />}
+            </div>
           </div>
         </div>
       )}

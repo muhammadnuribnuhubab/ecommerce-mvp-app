@@ -38,7 +38,7 @@ export const Logo = () => {
           src='/images/shared/logo.svg'
           alt='Logo'
           className={clsx(
-            'min-h-[45px] min-w-[45px] sm:size-14 transition-all duration-500',
+            'min-h-[35px] min-w-[35px] sm:size-14 transition-all duration-500',
             isPulsing && 'animate-pulse'
           )}
           width={0}

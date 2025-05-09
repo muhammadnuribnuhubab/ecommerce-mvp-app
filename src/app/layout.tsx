@@ -2,6 +2,8 @@
 
 import type { Metadata } from 'next';
 import '../style/globals.css';
+import { Header } from '@/feature/shared/layout/Header';
+import { Footer } from '@/feature/shared/layout/Footer';
 
 export const metadata: Metadata = {
   title: 'commercéll',
@@ -18,7 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
