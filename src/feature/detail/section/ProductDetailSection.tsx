@@ -1,14 +1,14 @@
-// app/feature/detail/ProductDetail.tsx
+// app/feature/detail/section/ProductDetailSection.tsx
 'use client';
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Typography } from '../shared/ui/Typography';
-import { Rating } from '../shared/widget/Rating';
-import { QuantityControl } from '../cart/widget/QuantityControl';
-import { Button } from '../shared/ui/Button';
+import { Typography } from '../../shared/ui/Typography';
+import { Rating } from '../../shared/widget/Rating';
+import { Button } from '../../shared/ui/Button';
+import { QuantityControl } from '@/feature/shared/widget/QuantityControl';
 
-type ProductDetailProps = {
+type ProductDetailSectionProps = {
   imageUrl: string;
   category: string;
   name: string;
@@ -20,7 +20,7 @@ type ProductDetailProps = {
   onBuyNow: () => void;
 };
 
-export const ProductDetail = ({
+export const ProductDetailSection = ({
   imageUrl,
   category,
   name,
@@ -28,7 +28,7 @@ export const ProductDetail = ({
   rating,
   reviewCount,
   description,
-}: ProductDetailProps) => {
+}: ProductDetailSectionProps) => {
   const [quantity, setQuantity] = useState(1);
 
   return (

@@ -47,7 +47,7 @@ export const Header = () => {
   };
 
   return (
-    <header className='fixed z-999 w-full px-4 py-3 bg-white shadow-[0px_0px_20px_0px_#CBCACA40]'>
+    <header className='fixed z-500 w-full px-4 py-3 bg-white shadow-[0px_0px_20px_0px_#CBCACA40]'>
       <div className='flex items-center justify-between gap-4 container mx-auto'>
         <Logo />
         <div className='flex items-center gap-3'>

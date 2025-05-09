@@ -28,7 +28,7 @@ export const AuthModal = ({ mode, onClose }: AuthModalProps) => {
   const isRegister = mode === 'register';
 
   return (
-    <div className='fixed inset-0 z-[999] bg-black/50 flex items-center justify-center px-4'>
+    <div className='fixed inset-0 z-999 bg-black/50 flex items-center justify-center px-4'>
       <div className='relative bg-white w-full max-w-lg rounded-xl p-6'>
         <CloseAction
           title={isRegister ? 'Register' : 'Login'}
