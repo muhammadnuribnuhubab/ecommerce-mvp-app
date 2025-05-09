@@ -1,17 +1,15 @@
+// src/feature/shared/ui/Logo.tsx
+
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import clsx from 'clsx';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import clsx from 'clsx';
 import { Typography } from './Typography';
 
-type LogoProps = {
-  hideText?: boolean;
-};
-
-export const Logo: React.FC<LogoProps> = () => {
+export const Logo = () => {
   const router = useRouter();
   const [isPulsing, setIsPulsing] = useState(false);
 
@@ -40,8 +38,7 @@ export const Logo: React.FC<LogoProps> = () => {
           src='/images/shared/logo.svg'
           alt='Logo'
           className={clsx(
-            'transition-all duration-500',
-            'w-[29.1847px] h-[32px] sm:w-[38.3049px] sm:h-[42px]',
+            'min-h-[45px] min-w-[45px] sm:size-14 transition-all duration-500',
             isPulsing && 'animate-pulse'
           )}
           width={0}
@@ -51,9 +48,9 @@ export const Logo: React.FC<LogoProps> = () => {
 
         <Typography
           as='span'
-          size='base'
+          size='2xl'
           weight='bold'
-          className='hidden sm:inline'
+          className='hidden xl:inline'
         >
           commercéll
         </Typography>

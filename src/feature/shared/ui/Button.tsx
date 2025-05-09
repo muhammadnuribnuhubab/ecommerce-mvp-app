@@ -1,7 +1,7 @@
 // src/features/shared/ui/Button.tsx
 
-import { ButtonHTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
 
 const buttonStyles = cva(
@@ -28,13 +28,13 @@ const buttonStyles = cva(
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonStyles>;
 
-export const Button: React.FC<ButtonProps> = ({
-  className,
+export const Button = ({
+  className = '',
   children,
   variant,
   fullWidth,
   ...props
-}) => {
+}: ButtonProps) => {
   return (
     <button
       {...props}

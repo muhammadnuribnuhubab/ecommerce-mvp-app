@@ -1,8 +1,8 @@
 // src/feature/shared/ui/Typography.tsx
 
-import clsx from 'clsx';
 import { cva } from 'class-variance-authority';
 import { JSX } from 'react';
+import clsx from 'clsx';
 
 const typographyStyles = cva('tracking-normal', {
   variants: {
@@ -39,14 +39,14 @@ type TypographyProps = {
   color?: 'primary' | 'secondary';
 };
 
-export const Typography: React.FC<TypographyProps> = ({
+export const Typography = ({
   as = 'span',
-  className,
+  className = '',
   children,
   size = 'base',
   weight = 'normal',
   color = 'primary',
-}) => {
+}: TypographyProps) => {
   const classNames = clsx(typographyStyles({ size, weight, color }), className);
 
   const Component = as;
