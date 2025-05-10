@@ -1,17 +1,30 @@
-// src/feature/shared/widget/SearchInput.tsx
-
 'use client';
 
+import { useRouter, usePathname } from 'next/navigation';
+import { useState, ChangeEvent, useEffect } from 'react';
 import clsx from 'clsx';
-import { useState, ChangeEvent } from 'react';
 import { RoundedCloseIcon, SearchIcon } from '../ui/Icon';
 
 type SearchInputProps = {
   className?: string;
-}
+};
 
-export const SearchInput = ({className}: SearchInputProps) => {
+export const SearchInput = ({ className }: SearchInputProps) => {
   const [query, setQuery] = useState('');
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      const trimmed = query.trim();
+
+      if (trimmed || pathname.startsWith('/search')) {
+        router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+      }
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [query, pathname, router]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -19,6 +32,9 @@ export const SearchInput = ({className}: SearchInputProps) => {
 
   const handleClear = () => {
     setQuery('');
+    if (pathname.startsWith('/search')) {
+      router.push('/search?q=');
+    }
   };
 
   return (

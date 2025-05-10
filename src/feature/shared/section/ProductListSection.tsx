@@ -20,7 +20,7 @@ export const ProductListSection = ({
   products,
 }: ProductListSectionProps) => {
   return (
-    <section className='mt-6 lg:mt-10'>
+    <section>
       <Typography as='h2' size='xl' weight='bold' className='mb-4'>
         {title}
       </Typography>

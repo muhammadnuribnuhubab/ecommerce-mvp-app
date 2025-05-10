@@ -18,7 +18,7 @@ export const CategoryDropdownHeaderItem = ({
     <button
       onClick={onClick}
       className={clsx(
-        'flex gap-2 w-full py-2 pb-2 bg-white rounded-lg transition-colors hover:bg-neutral-300 cursor-pointer',
+        'flex gap-2 w-full py-2 pb-2 bg-white rounded-lg transition-colors hover:underline cursor-pointer',
         className
       )}
     >

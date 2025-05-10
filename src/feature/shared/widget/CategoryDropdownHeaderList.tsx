@@ -8,7 +8,7 @@ import { CategoryDropdownHeaderItem } from './CategoryDropdownHeaderItem';
 import { Typography } from '../ui/Typography';
 import { ChevronIcon } from '../ui/Icon';
 
-const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4'];
+const categories = ['Category kategory kalte', 'CategoryCategoryCategory 2', 'Category 3Category', 'Category 4'];
 
 export const CategoryDropdownHeaderList = () => {
   return (
@@ -18,7 +18,7 @@ export const CategoryDropdownHeaderList = () => {
       menuClassName='absolute bg-white rounded-lg shadow-lg px-4 pb-2'
     >
       <Typography
-        className='flex justify-center items-center py-3 pt-4'
+        className='flex justify-center items-center py-3 pt-4 border-b border-neutral-300'
         weight='semibold'
       >
         Category
