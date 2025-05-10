@@ -1,37 +1,51 @@
-// src/feature/sharaed/widget/CategoryDropdownHeaderList.tsx
-
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
 import { DropdownWrapper } from './DropdownWrapper';
 import { CategoryDropdownHeaderTrigger } from './CategoryDropdownHeaderTrigger';
 import { CategoryDropdownHeaderItem } from './CategoryDropdownHeaderItem';
 import { Typography } from '../ui/Typography';
-import { ChevronIcon } from '../ui/Icon';
 
-const categories = ['Category kategory kalte', 'CategoryCategoryCategory 2', 'Category 3Category', 'Category 4'];
+export const categories = [
+  'mens clothing',
+  'jewelery',
+  'electronics',
+  'womens clothing',
+];
 
 export const CategoryDropdownHeaderList = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
+
+  const handleClick = (category: string) => {
+    router.push(`/category/${encodeURIComponent(category)}`);
+  };
+
   return (
     <DropdownWrapper
       trigger={<CategoryDropdownHeaderTrigger />}
       align='left'
-      menuClassName='absolute bg-white rounded-lg shadow-lg px-4 pb-2'
+      menuClassName='absolute bg-white rounded-lg shadow-lg px-4 pb-2 flex flex-col items-center justify-center text-center'
     >
       <Typography
         className='flex justify-center items-center py-3 pt-4 border-b border-neutral-300'
         weight='semibold'
       >
         Category
-        <ChevronIcon className='rotate-180' />
       </Typography>
-      <div className='flex flex-col'>
+      <div className='flex flex-col items-center justify-center text-center'>
         {categories.map((category, index) => (
           <CategoryDropdownHeaderItem
             key={index}
             label={category}
-            onClick={() => {
-              console.log(`Selected: ${category}`);
-            }}
+            onClick={() => handleClick(category)}
+            className={
+              currentCategory.toLowerCase() === category.toLowerCase()
+                ? 'underline font-semibold text-blue-600'
+                : ''
+            }
           />
         ))}
       </div>

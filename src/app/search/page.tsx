@@ -1,4 +1,4 @@
-// src/app/page.tsx
+// src/app/search/page.tsx
 
 import { SearchPage as SearchPageComponent } from '@/feature/search/page/SearchPage';
 

@@ -38,9 +38,9 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
     return (
       <div className='flex flex-col items-center gap-1 text-center'>
         <Typography as='h1' size='xl' color='primary' weight='semibold'>
-          404 - Page Not Found
+          404
         </Typography>
-        <Typography>The page you are looking for does not exist</Typography>
+        <Typography>Page not found</Typography>
       </div>
     );
   };
@@ -49,14 +49,14 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
     <>
       <div
         className={clsx(
-          'flex flex-col items-center justify-center gap-6 bg-white',
+          'flex flex-col items-center justify-center bg-white px-4',
           type === 'no-query' || type === 'no-results'
             ? 'min-h-[75vh]'
             : 'min-h-screen'
         )}
       >
         <Image
-          src='/images/shared/empty.svg'
+          src='/images/search/empty.svg'
           alt='Empty'
           width={130}
           height={130}
@@ -68,10 +68,12 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
       </div>
 
       {(type === 'no-query' || type === 'no-results') && (
-        <ProductListSection
-          title='Recommendation Products'
-          products={mockProducts}
-        />
+        <div className='pt-4 border-t border-neutral-300'>
+          <ProductListSection
+            title='Recommendation Products'
+            products={mockProducts}
+          />
+        </div>
       )}
     </>
   );

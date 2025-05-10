@@ -1,31 +1,30 @@
-// src/feature/category/widget/CategoryDropdown.tsx
-
 'use client';
 
 import { ChevronIcon } from '@/feature/shared/ui/Icon';
 import { useState } from 'react';
 import { Checkbox } from '@/feature/shared/ui/Checkbox';
+import { useRouter, usePathname } from 'next/navigation';
+import { categories } from '@/feature/shared/widget/CategoryDropdownHeaderList';
 
 type CategoryDropdownProps = {
-  categories: string[];
-  selected: string[]; 
+  selected: string[];
   onSelect: (category: string) => void;
 };
 
 export const CategoryDropdown = ({
-  categories,
-  selected,
   onSelect,
 }: CategoryDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const handleCheckboxChange = (category: string) => {
-    if (selected.includes(category)) {
-      onSelect(category);
-    } else {
-      onSelect(category); 
-    }
+  const handleCategoryClick = (category: string) => {
+    onSelect(category);
+    router.push(`/category/${encodeURIComponent(category)}`);
+    setIsOpen(false);
   };
+
+  const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
 
   return (
     <div className='relative inline-block text-left w-full'>
@@ -40,22 +39,27 @@ export const CategoryDropdown = ({
       </button>
 
       {isOpen && (
-        <ul className='absolute z-10 mt-2 w-full bg-white border border-neutral-300 rounded-lg shadow-md'>
-          {categories.map((category) => (
-            <li key={category}>
-              <button
-                onClick={() => handleCheckboxChange(category)}
-                className={`w-full flex items-center gap-2 px-4 py-2 text-sm sm:text-base hover:bg-neutral-100`}
-              >
-                <Checkbox
-                  checked={selected.includes(category)} // Checkbox is checked if category is selected
-                  onChange={() => handleCheckboxChange(category)} // Handle checkbox change
-                  name={category}
-                />
-                {category}
-              </button>
-            </li>
-          ))}
+        <ul className='absolute z-10 mt-2 w-full bg-white border border-neutral-300 rounded-lg shadow-md max-h-64 overflow-y-auto'>
+          {categories.map((category) => {
+            const isActive =
+              currentCategory.toLowerCase() === category.toLowerCase();
+
+            return (
+              <li key={category}>
+                <button
+                  onClick={() => handleCategoryClick(category)}
+                  className='w-full flex items-center gap-2 px-4 py-2 text-sm sm:text-base hover:bg-neutral-100'
+                >
+                  <Checkbox
+                    checked={isActive}
+                    onChange={() => handleCategoryClick(category)}
+                    name={category}
+                  />
+                  {category}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
