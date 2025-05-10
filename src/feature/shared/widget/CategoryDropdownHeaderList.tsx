@@ -15,10 +15,10 @@ export const CategoryDropdownHeaderList = () => {
     <DropdownWrapper
       trigger={<CategoryDropdownHeaderTrigger />}
       align='left'
-      menuClassName='absolute bg-white rounded-lg shadow-lg px-4'
+      menuClassName='absolute bg-white rounded-lg shadow-lg px-4 pb-2'
     >
       <Typography
-        className='flex justify-center items-center py-4'
+        className='flex justify-center items-center py-3 pt-4'
         weight='semibold'
       >
         Category

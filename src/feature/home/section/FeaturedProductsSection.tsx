@@ -1,6 +1,5 @@
-// src/feature/home/section/FeaturedProductsSection.tsx
-
 import { ProductListSection } from '@/feature/shared/section/ProductListSection';
+import { Button } from '@/feature/shared/ui/Button'; // asumsi kamu punya komponen Button
 
 type FeaturedProductsSectionProps = {
   products: {
@@ -11,10 +10,16 @@ type FeaturedProductsSectionProps = {
   }[];
 };
 
-export const FeaturedProductsSection = ({ products }: FeaturedProductsSectionProps) => {
+export const FeaturedProductsSection = ({
+  products,
+}: FeaturedProductsSectionProps) => {
   return (
-    <section>
-      <ProductListSection title="Featured Products" products={products} />
+    <section className='space-y-6'>
+      <ProductListSection title='Featured Products' products={products} />
+
+      <div className='flex justify-center'>
+        <Button variant='secondary' fullWidth={false} className='!px-16'>Load More</Button>
+      </div>
     </section>
   );
 };
