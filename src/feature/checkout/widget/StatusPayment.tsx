@@ -24,7 +24,7 @@ export const StatusPayment = ({
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-999'>
-      <div className='bg-white w-[400px] p-6 rounded-xl text-center'>
+      <div className='relative bg-white w-full max-w-lg rounded-xl p-6 text-center'>
         <div className='flex justify-between items-center'>
           <CloseAction title='Payment Status' onClose={onClose} />
         </div>

@@ -33,7 +33,7 @@ export const SelectPayment = ({
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-999 bg-opacity-50'>
-      <div className='bg-white w-[400px] p-6 rounded-xl'>
+      <div className='relative bg-white w-full max-w-lg rounded-xl p-6'>
         <div className='flex justify-between items-center'>
           <CloseAction title='Select Payment' onClose={onClose} />
         </div>

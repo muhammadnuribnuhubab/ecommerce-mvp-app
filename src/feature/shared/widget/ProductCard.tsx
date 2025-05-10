@@ -18,7 +18,7 @@ export const ProductCard = ({
   rating = 0,
 }: ProductCardProps) => {
   return (
-    <div className='w-full max-w-[250px] min-w-[200px] bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
+    <div className='w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
       <div className='relative w-full aspect-[173/173] md:aspect-[265/265] overflow-hidden bg-amber-200'>
         <Image
           src={imageUrl}

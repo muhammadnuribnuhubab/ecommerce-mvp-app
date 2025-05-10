@@ -15,7 +15,7 @@ import {
 
 export const Footer = () => {
   return (
-    <footer className='w-full py-8 px-4 border-t bg-white border-neutral-300'>
+    <footer className='w-full py-8 px-4 border-t bg-white border-neutral-300 mt-10 lg:mt-20'>
       <div className='container mx-auto flex flex-col lg:flex-row justify-between gap-6'>
         <div className='flex flex-col gap-6 lg:max-w-md'>
           <div className='flex flex-col gap-4'>
