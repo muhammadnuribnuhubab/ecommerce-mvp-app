@@ -14,7 +14,7 @@ type ProductDetailSectionProps = {
   name: string;
   price: number;
   rating: number;
-  reviewCount: number;
+  reviews: number;
   description: string;
   onAddToCart: () => void;
   onBuyNow: () => void;
@@ -26,18 +26,18 @@ export const ProductDetailSection = ({
   name,
   price,
   rating,
-  reviewCount,
+  reviews,
   description,
 }: ProductDetailSectionProps) => {
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <div className='flex flex-col sm:flex-row mx-auto p-4 gap-6'>
-      <div className='relative w-full sm:max-w-[400px] sm:max-h-[400px] aspect-square bg-gray-400'>
+    <div className='flex flex-col sm:flex-row gap-6'>
+      <div className='relative w-full sm:min-w-[300px] sm:max-h-[300px] md:min-w-[400px] md:min-h-[400px] md:max-w-[400px] md:max-h-[400px] aspect-square bg-gray-400'>
         <Image src={imageUrl} alt={name} fill className='object-cover' />
       </div>
 
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4 w-full'>
         <div className='flex flex-col gap-1'>
           <Typography color='secondary'>{category}</Typography>
           <Typography as='h1' size='base' weight='semibold' className='block'>
@@ -47,7 +47,7 @@ export const ProductDetailSection = ({
             $ {price.toLocaleString()}
           </Typography>
           <Typography className='flex items-center gap-1'>
-            <Rating value={rating} /> ({reviewCount} reviews)
+            <Rating value={rating} /> ({reviews} reviews)
           </Typography>
         </div>
 

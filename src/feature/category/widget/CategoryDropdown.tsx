@@ -9,6 +9,7 @@ import { categories } from '@/feature/shared/widget/CategoryDropdownHeaderList';
 type CategoryDropdownProps = {
   selected: string[];
   onSelect: (category: string) => void;
+  categories: string[];
 };
 
 export const CategoryDropdown = ({

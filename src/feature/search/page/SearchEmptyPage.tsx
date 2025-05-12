@@ -1,10 +1,8 @@
-// src/feature/search/page/SearchEmptyPage.tsx
-
 import { ProductListSection } from '@/feature/shared/section/ProductListSection';
 import { Typography } from '@/feature/shared/ui/Typography';
 import Image from 'next/image';
-import { mockProducts } from './SearchPage';
 import clsx from 'clsx';
+import { mockData } from '@/constants/mockData';
 
 type SearchEmptyPageProps = {
   query?: string;
@@ -12,6 +10,8 @@ type SearchEmptyPageProps = {
 };
 
 export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
+  const allProducts = Object.values(mockData).flat();
+
   const renderContent = () => {
     if (type === 'no-query') {
       return (
@@ -71,7 +71,7 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
         <div className='pt-4 border-t border-neutral-300'>
           <ProductListSection
             title='Recommendation Products'
-            products={mockProducts}
+            products={allProducts}
           />
         </div>
       )}

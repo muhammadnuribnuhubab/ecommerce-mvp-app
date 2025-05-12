@@ -1,15 +1,16 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent, useEffect, RefObject } from 'react';
 import clsx from 'clsx';
 import { RoundedCloseIcon, SearchIcon } from '../ui/Icon';
 
 type SearchInputProps = {
   className?: string;
+  inputRef?: RefObject<HTMLInputElement | null>;
 };
 
-export const SearchInput = ({ className }: SearchInputProps) => {
+export const SearchInput = ({ className, inputRef }: SearchInputProps) => {
   const [query, setQuery] = useState('');
   const router = useRouter();
   const pathname = usePathname();
@@ -43,6 +44,7 @@ export const SearchInput = ({ className }: SearchInputProps) => {
       <input
         type='search'
         value={query}
+        ref={inputRef}
         onChange={handleChange}
         placeholder='Search'
         className='w-full pl-11 pr-11 py-3 sm:py-4 rounded-full border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-950 text-sm sm:text-base text-neutral-950'

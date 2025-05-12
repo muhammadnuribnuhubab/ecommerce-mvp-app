@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Logo } from '@/feature/shared/ui/Logo';
 import { CloseIcon, MenuIcon, SearchIcon } from '../ui/Icon';
 import { Button } from '../ui/Button';
@@ -17,6 +17,7 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const isLoggedIn = false;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -29,6 +30,12 @@ export const Header = () => {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
+
+    useEffect(() => {
+    if (isSearchOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSearchOpen]);
 
   const handleMenuClick = () => {
     setIsMenuOpen(true);
@@ -81,7 +88,7 @@ export const Header = () => {
       {isSearchOpen && (
         <div className='absolute inset-0 z-50 flex items-center px-4 py-4 sm:hidden bg-white'>
           <div className='flex items-center gap-2 w-full'>
-            <SearchInput />
+            <SearchInput inputRef={inputRef} />
             <button
               className='text-neutral-950 cursor-pointer'
               onClick={handleCloseSearch}
