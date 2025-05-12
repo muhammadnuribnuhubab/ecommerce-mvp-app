@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
-import { useState, ChangeEvent, useEffect, RefObject } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, ChangeEvent, useEffect, useRef, RefObject } from 'react';
 import clsx from 'clsx';
 import { RoundedCloseIcon, SearchIcon } from '../ui/Icon';
 
@@ -11,21 +11,29 @@ type SearchInputProps = {
 };
 
 export const SearchInput = ({ className, inputRef }: SearchInputProps) => {
-  const [query, setQuery] = useState('');
   const router = useRouter();
-  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('q') || '';
+
+  const [query, setQuery] = useState(initialQuery);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const delay = setTimeout(() => {
       const trimmed = query.trim();
 
-      if (trimmed || pathname.startsWith('/search')) {
-        router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+      // Abaikan render pertama (prevent automatic redirect on mount)
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+        return;
       }
+
+      // Jika user sudah mengetik atau clear, baru push URL
+      router.push(`/search?q=${encodeURIComponent(trimmed)}`);
     }, 500);
 
     return () => clearTimeout(delay);
-  }, [query, pathname, router]);
+  }, [query, router]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -33,9 +41,7 @@ export const SearchInput = ({ className, inputRef }: SearchInputProps) => {
 
   const handleClear = () => {
     setQuery('');
-    if (pathname.startsWith('/search')) {
-      router.push('/search?q=');
-    }
+    router.push('/search?q=');
   };
 
   return (
