@@ -1,5 +1,3 @@
-// src/feature/cart/widget/QuantityControl.tsx
-
 'use client';
 
 import { ChangeEvent } from 'react';

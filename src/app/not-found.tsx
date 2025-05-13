@@ -1,8 +1,7 @@
 // src/app/not-found.tsx
 
-import { SearchEmptyPage } from "@/feature/search/page/SearchEmptyPage";
-
+import { EmptyPage } from '@/feature/search/page/EmptyPage';
 
 export default function NotFound() {
-  return <SearchEmptyPage type='not-found' />;
+  return <EmptyPage type='not-found' />;
 }

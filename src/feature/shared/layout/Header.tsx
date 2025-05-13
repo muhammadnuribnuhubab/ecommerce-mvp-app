@@ -12,12 +12,15 @@ import { AuthButton } from '../widget/AuthButton';
 import { CartButton } from '../widget/CartButton';
 import { UserActionDropdownList } from '../widget/UserActionDropdownList';
 import { CategoryDropdownHeaderList } from '../widget/CategoryDropdownHeaderList';
+import { useCart } from '@/context/CartContex';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const isLoggedIn = false;
   const inputRef = useRef<HTMLInputElement>(null);
+  const { cartItems } = useCart();
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -31,7 +34,7 @@ export const Header = () => {
     };
   }, [isMenuOpen]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (isSearchOpen && inputRef.current) {
       inputRef.current.focus();
     }
@@ -67,7 +70,7 @@ export const Header = () => {
             <SearchIcon />
           </Button>
           <SearchInput className='hidden sm:inline-flex' />
-          <CartButton count={3} />
+          <CartButton count={cartCount} />
         </div>
 
         <div className='flex items-center gap-4'>
@@ -100,7 +103,7 @@ export const Header = () => {
       )}
 
       {isMenuOpen && (
-        <div className='absolute inset-0 z-50 p-4 sm:px-0 sm:py-5.5 lg:hidden bg-white min-h-screen'>
+        <div className='absolute inset-0 z-50 p-4  sm:py-5.5 lg:hidden bg-white min-h-screen'>
           <div className='container mx-auto'>
             <CloseAction
               title='Menu'

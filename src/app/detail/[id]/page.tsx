@@ -1,10 +1,10 @@
 // src/app/detail/[id]/page.tsx
 
-import { DetailPage } from '@/feature/detail/page/DetailPage';
+import { DetailPage as DetailPageComponent } from '@/feature/detail/page/DetailPage';
 import { mockData } from '@/constants/mockData';
 import { ProductDetail, Category } from '@/types/product';
 
-type PageProps = {
+type DetailPageProps = {
   params: { id: string };
 };
 
@@ -37,7 +37,7 @@ const getRelatedProducts = (
     .filter((product) => product.id !== excludeId);
 };
 
-export default function DetailPageRoute({ params }: PageProps) {
+export default function DetailPage({ params }: DetailPageProps) {
   const product = getProductDetail(params.id);
 
   if (!product) {
@@ -46,5 +46,5 @@ export default function DetailPageRoute({ params }: PageProps) {
 
   const relatedProducts = getRelatedProducts(product.category, product.id);
 
-  return <DetailPage product={product} relatedProducts={relatedProducts} />;
+  return <DetailPageComponent product={product} relatedProducts={relatedProducts} />;
 }

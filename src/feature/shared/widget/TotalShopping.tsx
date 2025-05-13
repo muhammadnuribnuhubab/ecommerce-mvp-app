@@ -3,6 +3,7 @@
 
 import { Typography } from '@/feature/shared/ui/Typography';
 import { Button } from '@/feature/shared/ui/Button';
+import clsx from 'clsx';
 
 type Item = {
   name: string;
@@ -15,6 +16,7 @@ type TotalShoppingProps = {
   mode?: 'cart' | 'checkout';
   onCheckout?: () => void;
   items?: Item[];
+  className?: string;
 };
 
 export const TotalShopping = ({
@@ -22,12 +24,13 @@ export const TotalShopping = ({
   onCheckout,
   mode,
   items = [],
+  className,
 }: TotalShoppingProps) => {
   const isCheckout = mode === 'checkout';
 
   return (
-    <div className='w-full p-4 border-t border-neutral-300 rounded-xl flex flex-col gap-4'>
-      <Typography weight='semibold' className='text-lg'>
+    <div className={clsx('lg:w-2/5 py-4  border-t flex flex-col gap-4 border-3 rounded-2xl p-4 border-neutral-300 h-fit', className)}>
+      <Typography as='h1' size='lg' weight='bold'>
         Total Shopping
       </Typography>
 

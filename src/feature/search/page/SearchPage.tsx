@@ -3,24 +3,16 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { SearchEmptyPage } from '@/feature/search/page/SearchEmptyPage';
 import { SearchResultPage } from '@/feature/search/page/SearchResultPage';
 import { mockData } from '@/constants/mockData';
+import { ProductBase } from '@/types/product'; // import ProductBase
 import clsx from 'clsx';
+import { EmptyPage } from './EmptyPage';
 
-export type ProductSummary = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-  description: string;
-};
-
-const allProducts: ProductSummary[] = Object.entries(mockData).flatMap(
-  ([category, products]) =>
+const allProducts: ProductBase[] = Object.entries(mockData).flatMap(
+  ([, products]) =>
     products.map((product) => ({
       ...product,
-      description: `This is a great ${product.name.toLowerCase()} from ${category}.`,
     }))
 );
 
@@ -29,19 +21,14 @@ export const SearchPage = () => {
   const query = searchParams.get('q')?.trim().toLowerCase() || '';
   const hasQuery = query.length > 0;
 
-  const filteredResults = allProducts.filter(
-    (product) =>
-      product.name.toLowerCase().includes(query) ||
-      product.description.toLowerCase().includes(query)
+  const filteredResults = allProducts.filter((product) =>
+    product.name.toLowerCase().includes(query)
   );
 
   const isEmptyPage = !hasQuery || filteredResults.length === 0;
 
   const content = isEmptyPage ? (
-    <SearchEmptyPage
-      type={!hasQuery ? 'no-query' : 'no-results'}
-      query={query}
-    />
+    <EmptyPage type={!hasQuery ? 'no-query' : 'no-results'} query={query} />
   ) : (
     <SearchResultPage results={filteredResults} query={query} />
   );
@@ -49,7 +36,7 @@ export const SearchPage = () => {
   return (
     <main
       className={clsx(
-        'container mx-auto px-4 sm:px-0 min-h-screen',
+        'container mx-auto px-4 min-h-screen',
         !isEmptyPage && 'pt-22 sm:pt-28'
       )}
     >

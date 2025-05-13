@@ -4,12 +4,12 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import { mockData } from '@/constants/mockData';
 
-type SearchEmptyPageProps = {
+type EmptyPageProps = {
   query?: string;
-  type: 'no-query' | 'no-results' | 'not-found';
+  type: 'no-query' | 'no-results' | 'empty-cart' | 'not-found';
 };
 
-export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
+export const EmptyPage = ({ type, query }: EmptyPageProps) => {
   const allProducts = Object.values(mockData).flat();
 
   const renderContent = () => {
@@ -35,6 +35,17 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
       );
     }
 
+    if (type === 'empty-cart') {
+      return (
+        <div className='flex flex-col items-center gap-1 text-center'>
+          <Typography as='h1' size='xl' color='primary' weight='semibold'>
+            Your Cart is Empty
+          </Typography>
+          <Typography>Browse products and add them to your cart</Typography>
+        </div>
+      );
+    }
+
     return (
       <div className='flex flex-col items-center gap-1 text-center'>
         <Typography as='h1' size='xl' color='primary' weight='semibold'>
@@ -50,7 +61,7 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
       <div
         className={clsx(
           'flex flex-col items-center justify-center bg-white px-4',
-          type === 'no-query' || type === 'no-results'
+          type === 'no-query' || type === 'no-results' || type === 'empty-cart'
             ? 'min-h-[75vh]'
             : 'min-h-screen'
         )}
@@ -67,13 +78,11 @@ export const SearchEmptyPage = ({ type, query }: SearchEmptyPageProps) => {
         </div>
       </div>
 
-      {(type === 'no-query' || type === 'no-results') && (
-        <div className='pt-4 border-t border-neutral-300'>
+      {(type === 'no-query' || type === 'no-results' || type === 'empty-cart') && (
           <ProductListSection
             title='Recommendation Products'
             products={allProducts}
           />
-        </div>
       )}
     </>
   );

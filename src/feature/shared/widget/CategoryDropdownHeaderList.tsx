@@ -43,7 +43,7 @@ export const CategoryDropdownHeaderList = () => {
             onClick={() => handleClick(category)}
             className={
               currentCategory.toLowerCase() === category.toLowerCase()
-                ? 'underline font-semibold text-blue-600'
+                ? 'underline font-semibold text-primary-300'
                 : ''
             }
           />

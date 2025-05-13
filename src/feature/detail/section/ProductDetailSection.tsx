@@ -1,4 +1,3 @@
-// app/feature/detail/section/ProductDetailSection.tsx
 'use client';
 
 import Image from 'next/image';
@@ -7,15 +6,20 @@ import { Typography } from '../../shared/ui/Typography';
 import { Rating } from '../../shared/widget/Rating';
 import { Button } from '../../shared/ui/Button';
 import { QuantityControl } from '@/feature/shared/widget/QuantityControl';
+import { useCart } from '@/context/CartContex';
+import { useParams } from 'next/navigation'; // ✅ App Router gunakan ini
+import type { ProductDetail } from '@/types/product';
 
-type ProductDetailSectionProps = {
-  imageUrl: string;
-  category: string;
-  name: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  description: string;
+type ProductDetailSectionProps = Pick<
+  ProductDetail,
+  | 'imageUrl'
+  | 'category'
+  | 'name'
+  | 'price'
+  | 'rating'
+  | 'reviews'
+  | 'description'
+> & {
   onAddToCart: () => void;
   onBuyNow: () => void;
 };
@@ -30,6 +34,26 @@ export const ProductDetailSection = ({
   description,
 }: ProductDetailSectionProps) => {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const params = useParams(); // ✅ Ambil ID dari URL
+
+  const productId = params?.id as string; // Misalnya "m2"
+
+  const handleAddToCart = () => {
+    if (!productId) {
+      console.error('Product ID tidak ditemukan dari URL.');
+      return;
+    }
+
+    addToCart({
+      id: productId,
+      imageUrl,
+      name,
+      category,
+      price,
+      quantity, // ✅ Dikirim dari state QuantityControl
+    });
+  };
 
   return (
     <div className='flex flex-col sm:flex-row gap-6'>
@@ -69,7 +93,11 @@ export const ProductDetailSection = ({
         </div>
 
         <div className='flex flex-col sm:flex-row gap-2'>
-          <Button variant='secondary' className='sm:w-1/2'>
+          <Button
+            variant='secondary'
+            className='sm:w-1/2'
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </Button>
           <Button className='sm:w-1/2'>Buy Now</Button>

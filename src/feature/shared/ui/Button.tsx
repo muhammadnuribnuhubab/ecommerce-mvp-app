@@ -1,5 +1,3 @@
-// src/features/shared/ui/Button.tsx
-
 import { cva, type VariantProps } from 'class-variance-authority';
 import { ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
@@ -17,10 +15,15 @@ const buttonStyles = cva(
         true: 'w-full',
         false: '',
       },
+      disabled: {
+        true: '!cursor-not-allowed opacity-50',
+        false: '',
+      },
     },
     defaultVariants: {
       variant: 'primary',
       fullWidth: true,
+      disabled: false, // Default is not disabled
     },
   }
 );
@@ -33,12 +36,19 @@ export const Button = ({
   children,
   variant,
   fullWidth,
+  disabled = false,
+  onClick,
   ...props
 }: ButtonProps) => {
   return (
     <button
       {...props}
-      className={clsx(buttonStyles({ variant, fullWidth }), className)}
+      disabled={disabled}
+      onClick={onClick}
+      className={clsx(
+        buttonStyles({ variant, fullWidth, disabled }),
+        className
+      )}
     >
       {children}
     </button>

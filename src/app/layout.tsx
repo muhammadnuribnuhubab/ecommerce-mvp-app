@@ -1,9 +1,9 @@
 // src/app/layout.tsx
-
 import type { Metadata } from 'next';
 import '../style/globals.css';
 import { Header } from '@/feature/shared/layout/Header';
 import { Footer } from '@/feature/shared/layout/Footer';
+import { CartProvider } from '@/context/CartContex';
 
 export const metadata: Metadata = {
   title: 'commercéll',
@@ -21,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <CartProvider>
+          <Header />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

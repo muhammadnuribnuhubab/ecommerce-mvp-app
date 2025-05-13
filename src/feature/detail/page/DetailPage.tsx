@@ -4,24 +4,11 @@
 
 import { ProductDetailSection } from '../section/ProductDetailSection';
 import { ProductListSection } from '@/feature/shared/section/ProductListSection';
+import { ProductBase, ProductDetail } from '@/types/product'; // Impor ProductBase
 
 type DetailPageProps = {
-  product: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    category: string;
-    price: number;
-    rating: number;
-    reviews: number;
-    description: string;
-  };
-  relatedProducts: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: number;
-  }[];
+  product: ProductDetail;
+  relatedProducts: ProductBase[];
 };
 
 export const DetailPage = ({ product, relatedProducts }: DetailPageProps) => {
