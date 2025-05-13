@@ -1,19 +1,15 @@
+// src/feature/detail/component/ProductListSection.tsx (atau sesuai lokasimu)
+
 'use client';
 
 import Link from 'next/link';
 import { Typography } from '@/feature/shared/ui/Typography';
 import { ProductCard } from '../widget/ProductCard';
-
-type Product = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-};
+import { ProductBase } from '@/types/product';
 
 type ProductListSectionProps = {
   title: string;
-  products: Product[];
+  products: ProductBase[];
 };
 
 export const ProductListSection = ({
@@ -30,8 +26,8 @@ export const ProductListSection = ({
           <Link key={product.id} href={`/detail/${product.id}`}>
             <ProductCard
               imageUrl={product.imageUrl}
-              title={product.name}
-              price={`$${product.price.toLocaleString()}`}
+              name={product.name}
+              price={product.price}
               rating={4.5}
             />
           </Link>

@@ -3,17 +3,16 @@
 import Image from 'next/image';
 import { Typography } from '../ui/Typography';
 import { Rating } from './Rating';
+import { ProductBase } from '@/types/product';
 
-type ProductCardProps = {
-  imageUrl: string;
-  title: string;
-  price: string;
-  rating?: number;
-};
+type ProductCardProps = Pick<
+  ProductBase,
+  'imageUrl' | 'name' | 'price' | 'rating'
+>;
 
 export const ProductCard = ({
   imageUrl,
-  title,
+  name,
   price,
   rating = 0,
 }: ProductCardProps) => {
@@ -22,7 +21,7 @@ export const ProductCard = ({
       <div className='relative w-full aspect-[173/173] md:aspect-[265/265] overflow-hidden bg-amber-200'>
         <Image
           src={imageUrl}
-          alt={title}
+          alt={name}
           width={300}
           height={450}
           className='w-full h-auto object-cover'
@@ -31,7 +30,7 @@ export const ProductCard = ({
         />
       </div>
       <div className='p-3 sm:p-4 flex flex-col gap-2'>
-        <Typography className='truncate'>{title}</Typography>
+        <Typography className='truncate'>{name}</Typography>
         <Typography weight='bold'>{price}</Typography>
         <Rating value={rating} />
       </div>

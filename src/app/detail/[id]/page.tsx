@@ -2,37 +2,17 @@
 
 import { DetailPage } from '@/feature/detail/page/DetailPage';
 import { mockData } from '@/constants/mockData';
-
-type Category = keyof typeof mockData;
-
-type Product = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  description: string;
-  category: Category;
-};
+import { ProductDetail, Category } from '@/types/product';
 
 type PageProps = {
   params: { id: string };
 };
 
-const getProductDetail = (id: string): Product | null => {
-  for (const [category, products] of Object.entries(mockData) as [
-    Category,
-    {
-      id: string;
-      name: string;
-      imageUrl: string;
-      price: number;
-      rating: number;
-      reviews: number;
-      description: string;
-    }[]
-  ][]) {
+const getProductDetail = (id: string): ProductDetail | null => {
+  const categories = Object.keys(mockData) as Category[];
+
+  for (const category of categories) {
+    const products = mockData[category];
     const found = products.find((p) => p.id === id);
     if (found) {
       return {
@@ -41,13 +21,14 @@ const getProductDetail = (id: string): Product | null => {
       };
     }
   }
+
   return null;
 };
 
 const getRelatedProducts = (
   category: Category,
   excludeId: string
-): Product[] => {
+): ProductDetail[] => {
   return mockData[category]
     .map((product) => ({
       ...product,

@@ -4,14 +4,8 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { CategoryNavigationSection } from '../section/CategoryNavigationSection';
 import { ProductListSection } from '@/feature/shared/section/ProductListSection';
-import { mockData } from '@/constants/mockData'; // import mock data
-
-type Product = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-};
+import { mockData } from '@/constants/mockData';
+import { ProductBase } from '@/types/product';
 
 export const CategoryPage = () => {
   const params = useParams();
@@ -19,9 +13,8 @@ export const CategoryPage = () => {
   const decodedCategory = decodeURIComponent(categoryParam);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductBase[]>([]);
 
-  // Buat union type dari semua kategori yang mungkin
   type CategoryKey =
     | 'mens clothing'
     | 'jewelery'
@@ -34,7 +27,12 @@ export const CategoryPage = () => {
     const key = decodedCategory.toLowerCase() as CategoryKey;
 
     if (mockData[key]) {
-      setProducts(mockData[key]);
+      // Pastikan semua item punya properti rating
+      const mapped: ProductBase[] = mockData[key].map((product) => ({
+        ...product,
+        rating: product.rating ?? 0, // default rating jika undefined
+      }));
+      setProducts(mapped);
     }
   }, [decodedCategory]);
 
@@ -59,7 +57,7 @@ export const CategoryPage = () => {
           'jewelery',
           'electronics',
           'womens clothing',
-        ]} // kategori yang diperbarui
+        ]}
         selected={selectedCategories}
         onSelect={handleCategorySelect}
       />
