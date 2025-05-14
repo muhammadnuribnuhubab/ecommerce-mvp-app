@@ -47,7 +47,7 @@ export const CartPage = () => {
   );
 
   return (
-    <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col lg:flex-row lg:justify-between lg:gap-10 xl:gap-16'>
+    <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col lg:flex-row lg:justify-between lg:gap-6'>
       <CartItemsSection
         isAllSelected={isAllSelected}
         isAnySelected={isAnySelected}

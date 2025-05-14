@@ -10,11 +10,11 @@ import { useRouter } from 'next/navigation';
 
 type OrderItemProps = CartItem & {
   mode: 'cart' | 'checkout';
-  onSelect: (id: string) => void;
-  onIncrement: (id: string) => void;
-  onDecrement: (id: string) => void;
-  onRemove: (id: string) => void;
-  onChangeQuantity: (id: string, quantity: number) => void; // ✅ Tambahan
+  onSelect?: (id: string) => void;
+  onIncrement?: (id: string) => void;
+  onDecrement?: (id: string) => void;
+  onRemove?: (id: string) => void;
+  onChangeQuantity?: (id: string, quantity: number) => void; // ✅ Tambahan
 };
 
 export const OrderItem = ({
@@ -52,7 +52,7 @@ export const OrderItem = ({
           <Checkbox
             checked={isSelected}
             onChange={() => {
-              onSelect(id);
+              onSelect?.(id);
             }}
             name=''
           />
@@ -75,7 +75,7 @@ export const OrderItem = ({
             <Typography weight='bold' className='sm:hidden'>
               {isCart
                 ? `$${price.toLocaleString()}`
-                : `$${price.toLocaleString()} x${quantity}`}
+                : `$${price.toLocaleString()} X ${quantity}`}
             </Typography>
           </div>
         </div>
@@ -89,7 +89,7 @@ export const OrderItem = ({
             <Checkbox
               checked={isSelected}
               onChange={() => {
-                onSelect(id);
+                onSelect?.(id);
               }}
               name=''
             />
@@ -97,19 +97,19 @@ export const OrderItem = ({
         )}
       </div>
 
-      <div className='flex flex-col gap-2 items-end'>
+      <div className='flex flex-col gap-2 items-end text-end'>
         <Typography weight='bold' className='hidden sm:inline-block'>
           {isCart
             ? `$${price.toLocaleString()}`
-            : `$${price.toLocaleString()} x${quantity}`}
+            : `$${price.toLocaleString()} X${quantity}`}
         </Typography>
         {isCart && (
           <div
-            onClick={() => onSelect(id)}
+            onClick={() => onSelect?.(id)}
             className='flex items-center gap-4 flex-row-reverse sm:flex-row'
           >
             <div
-              onClick={() => onRemove(id)}
+              onClick={() => onRemove?.(id)}
               className='cursor-pointer !rounded-xl !p-2.5 sm:!p-2'
             >
               <TrashIcon />
@@ -118,9 +118,9 @@ export const OrderItem = ({
             <div onClick={(e) => e.stopPropagation()}>
               <QuantityControl
                 quantity={quantity}
-                onIncrement={() => onIncrement(id)}
-                onDecrement={() => onDecrement(id)}
-                onChange={(value) => onChangeQuantity(id, value)} // ✅ Perbaikan utama
+                onIncrement={() => onIncrement?.(id)}
+                onDecrement={() => onDecrement?.(id)}
+                onChange={(value) => onChangeQuantity?.(id, value)}
                 min={1}
                 max={99}
               />

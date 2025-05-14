@@ -1,10 +1,10 @@
-// src/feature/detail/page/DetailPage.tsx
-
 'use client';
 
 import { ProductDetailSection } from '../section/ProductDetailSection';
 import { ProductListSection } from '@/feature/shared/section/ProductListSection';
-import { ProductBase, ProductDetail } from '@/types/product'; // Impor ProductBase
+import { ProductBase, ProductDetail } from '@/types/product';
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 type DetailPageProps = {
   product: ProductDetail;
@@ -12,8 +12,15 @@ type DetailPageProps = {
 };
 
 export const DetailPage = ({ product, relatedProducts }: DetailPageProps) => {
+  const pathname = usePathname();
+
+  // scroll ke atas setiap kali pathname berubah
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
-    <main className='container mx-auto pt-22 sm:pt-28 px-4  min-h-screen flex flex-col gap-6 xl:gap-10'>
+    <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col gap-6 xl:gap-10'>
       <ProductDetailSection
         imageUrl={product.imageUrl}
         category={product.category}

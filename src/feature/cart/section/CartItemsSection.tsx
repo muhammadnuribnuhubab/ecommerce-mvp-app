@@ -33,7 +33,7 @@ export const CartItemsSection = ({
   onChangeQuantity, // ✅ Tambahkan di sini juga
 }: CartItemsSectionProps) => {
   return (
-    <div className='flex flex-col lg:w-3/5'>
+    <div className='flex flex-col lg:w-3/5 border-3 rounded-2xl p-4 border-neutral-300 h-fit'>
       {/* Cart Header Section */}
       <div className='flex items-center justify-between mb-4'>
         <Typography as='h1' size='xl' weight='bold'>

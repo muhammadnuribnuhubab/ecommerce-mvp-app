@@ -1,4 +1,3 @@
-// src/shared/ui/InputField.tsx
 import { EyeOffIcon, EyeIcon } from '@/feature/shared/ui/Icon';
 import { useState } from 'react';
 
@@ -10,6 +9,7 @@ type InputFieldProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
+  readOnly?: boolean; // Properti baru untuk mencegah perubahan
 };
 
 export const InputField = ({
@@ -20,31 +20,35 @@ export const InputField = ({
   onChange,
   placeholder = '',
   required = false,
+  readOnly = false, // Ambil nilai dari props readOnly
 }: InputFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === 'password';
   const inputType = isPassword && showPassword ? 'text' : type;
 
+  const inputId = `input-${name}`; // ID unik, misal: input-name, input-address, dll
+
   return (
     <div className='w-full'>
       {label && (
         <label
-          htmlFor={name}
-          className='block mb-1 font-semibold text-sm sm:text-base text-neutral-950'
+          htmlFor={inputId}
+          className='block mb-1 font-semibold text-sm sm:text-base text-neutral-950 cursor-pointer'
         >
           {label}
         </label>
       )}
       <div className='relative'>
         <input
-          type={inputType}
-          id={name}
+          id={inputId}
           name={name}
+          type={inputType}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
           required={required}
           className='w-full px-4 py-2 pr-10 rounded-xl border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-950 text-sm sm:text-base text-neutral-950'
+          readOnly={readOnly} // Gunakan readOnly untuk menonaktifkan perubahan
         />
         {isPassword && (
           <button

@@ -1,5 +1,3 @@
-// src/feature/checkout/widget/StatusPayment.tsx
-
 'use client';
 
 import { CloseAction } from '@/feature/shared/widget/CloseAction';
@@ -22,8 +20,19 @@ export const StatusPayment = ({
 }: StatusPaymentProps) => {
   const isSuccess = status === 'success';
 
+  let message = '';
+  if (status === 'success') {
+    message =
+      'Thank you for shopping at our store. Your payment was processed successfully.';
+  } else if (status === 'failed') {
+    // Simulasi alasan kegagalan pembayaran
+    const failureReason =
+      Math.random() > 0.5 ? 'Insufficient funds' : 'Payment declined by bank';
+    message = `There was an issue with your payment. Reason: ${failureReason}. Please try again.`;
+  }
+
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-999'>
+    <div className='fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-999 px-4'>
       <div className='relative bg-white w-full max-w-lg rounded-xl p-6 text-center'>
         <div className='flex justify-between items-center'>
           <CloseAction title='Payment Status' onClose={onClose} />
@@ -49,11 +58,7 @@ export const StatusPayment = ({
             {isSuccess ? 'Payment Successful' : 'Payment Failed'}
           </Typography>
 
-          <Typography>
-            {isSuccess
-              ? 'Thank you for shopping at our store'
-              : 'There was an issue with your payment. Please try again'}
-          </Typography>
+          <Typography>{message}</Typography>
         </div>
 
         <div className='mt-6'>

@@ -7,18 +7,12 @@ import { Rating } from '../../shared/widget/Rating';
 import { Button } from '../../shared/ui/Button';
 import { QuantityControl } from '@/feature/shared/widget/QuantityControl';
 import { useCart } from '@/context/CartContex';
-import { useParams } from 'next/navigation'; // ✅ App Router gunakan ini
+import { useParams, useRouter } from 'next/navigation';
 import type { ProductDetail } from '@/types/product';
 
 type ProductDetailSectionProps = Pick<
   ProductDetail,
-  | 'imageUrl'
-  | 'category'
-  | 'name'
-  | 'price'
-  | 'rating'
-  | 'reviews'
-  | 'description'
+  'imageUrl' | 'category' | 'name' | 'price' | 'rating' | 'reviews' | 'description'
 > & {
   onAddToCart: () => void;
   onBuyNow: () => void;
@@ -35,9 +29,10 @@ export const ProductDetailSection = ({
 }: ProductDetailSectionProps) => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
-  const params = useParams(); // ✅ Ambil ID dari URL
+  const params = useParams();
+  const router = useRouter();
 
-  const productId = params?.id as string; // Misalnya "m2"
+  const productId = params?.id as string;
 
   const handleAddToCart = () => {
     if (!productId) {
@@ -51,8 +46,26 @@ export const ProductDetailSection = ({
       name,
       category,
       price,
-      quantity, // ✅ Dikirim dari state QuantityControl
+      quantity,
     });
+  };
+
+  const handleBuyNow = () => {
+    if (!productId) {
+      console.error('Product ID tidak ditemukan dari URL.');
+      return;
+    }
+
+    const queryParams = new URLSearchParams({
+      id: productId,
+      imageUrl,
+      name,
+      category,
+      price: price.toString(),
+      quantity: quantity.toString(),
+    }).toString();
+
+    router.push(`/checkout?${queryParams}`);
   };
 
   return (
@@ -100,7 +113,12 @@ export const ProductDetailSection = ({
           >
             Add to Cart
           </Button>
-          <Button className='sm:w-1/2'>Buy Now</Button>
+          <Button
+            className='sm:w-1/2'
+            onClick={handleBuyNow}
+          >
+            Buy Now
+          </Button>
         </div>
       </div>
     </div>

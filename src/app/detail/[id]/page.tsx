@@ -1,5 +1,11 @@
 // src/app/detail/[id]/page.tsx
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Detail | commercéll',
+};
+
 import { DetailPage as DetailPageComponent } from '@/feature/detail/page/DetailPage';
 import { mockData } from '@/constants/mockData';
 import { ProductDetail, Category } from '@/types/product';
