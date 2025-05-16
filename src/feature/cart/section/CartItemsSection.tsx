@@ -59,17 +59,17 @@ export const CartItemsSection = ({
           </Button>
         </div>
       </div>
-
       {/* Cart Items List */}
+
       {cartItems.map((item) => (
         <OrderItem
-          key={item.id}
+          key={item.cartItemUuid}
           {...item}
           onIncrement={onIncrement}
           onDecrement={onDecrement}
           onRemove={onRemove}
           onSelect={onSelect}
-          onChangeQuantity={onChangeQuantity} // ✅ Tambahkan prop ini
+          onChangeQuantity={onChangeQuantity}
           mode='cart'
         />
       ))}

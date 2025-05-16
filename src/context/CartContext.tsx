@@ -9,179 +9,197 @@ import React, {
 } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useAuth } from '@/context/AuthContext';
-import { CartItem } from '@/types/cart';
+import { CartItem, CartItemUpsert } from '@/types/cart';
 import type { Database } from '@/types/supabase';
 
+// 1. Tambahkan di tipe:
 type CartContextType = {
   cartItems: CartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  addToCart: (item: Omit<CartItem, 'isSelected'>) => void;
-  removeFromCart: (id: number) => void;
-  toggleSelect: (id: number) => void;
+  addToCart: (item: CartItemUpsert) => Promise<void>;
+  removeFromCart: (productId: number) => Promise<void>;
+  incrementQuantity: (productId: number) => Promise<void>;
+  decrementQuantity: (productId: number) => Promise<void>;
+  updateQuantity: (productId: number, quantity: number) => Promise<void>; // ← baru
+  toggleSelect: (productId: number) => void;
   toggleSelectAll: () => void;
-  incrementQuantity: (id: number) => void;
-  decrementQuantity: (id: number) => void;
-  removeSelectedFromCart: () => void;
+  removeSelectedFromCart: () => Promise<void>;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const supabase = useSupabaseClient<Database>();
+  const supabase = useSupabaseClient<Database, 'public'>();
   const { user } = useAuth();
-
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  // Fetch cart from Supabase when user logged in
+  // helper: fetch & map
+  const fetchCart = async () => {
+    if (!user?.id) return;
+    const { data, error } = await supabase
+      .from('cart_items')
+      .select('*')
+      .eq('user_id', user.id);
+    if (error) {
+      console.error('Failed to fetch cart:', error.message);
+    } else {
+      setCartItems(
+        data.map((row) => ({
+          id: row.product_id,
+          title: row.title,
+          category: row.category,
+          price: row.price,
+          image: row.image,
+          quantity: row.quantity,
+          isSelected: false,
+          cartItemUuid: row.id,
+        }))
+      );
+    }
+  };
+
   useEffect(() => {
     if (!user?.id) return;
 
+    // Pindahkan definisi fetchCart ke sini
     const fetchCart = async () => {
       const { data, error } = await supabase
         .from('cart_items')
         .select('*')
         .eq('user_id', user.id);
-
-      if (error) {
-        console.error('Failed to fetch cart:', error.message);
-      } else {
-        setCartItems(data.map((item) => ({ ...item, isSelected: false })));
+      if (error) console.error('Failed to fetch cart:', error.message);
+      else {
+        setCartItems(
+          data.map((row) => ({
+            id: row.product_id,
+            title: row.title,
+            category: row.category,
+            price: row.price,
+            image: row.image,
+            quantity: row.quantity,
+            isSelected: false,
+            cartItemUuid: row.id,
+          }))
+        );
       }
     };
 
     fetchCart();
   }, [supabase, user?.id]);
 
-  const syncCart = async () => {
-    if (!user?.id) return;
-    const { data, error } = await supabase
-      .from('cart_items')
-      .select('*')
-      .eq('user_id', user.id);
-    if (!error && data) {
-      setCartItems(data.map((item) => ({ ...item, isSelected: false })));
-    }
-  };
-
-  const addToCart = async (product: Omit<CartItem, 'isSelected'>) => {
-    if (!user) {
+  const addToCart = async (product: CartItemUpsert) => {
+    if (!user?.id) {
       console.error('User not logged in');
       return;
     }
 
-    // Validasi lengkap
-    const requiredFields = ['id', 'title', 'category', 'price', 'image'];
-    for (const field of requiredFields) {
-      if (
-        !(field in product) ||
-        product[field] === undefined ||
-        product[field] === null
-      ) {
-        console.error(`Missing required product field: ${field}`, product);
-        return;
-      }
+    // cek existing
+    const { data: existing, error: fetchErr } = await supabase
+      .from('cart_items')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('product_id', product.id)
+      .limit(1);
+    if (fetchErr) {
+      console.error(fetchErr.message);
+      return;
     }
 
-    const payload = {
-      user_id: user.id,
-      product_id: product.id,
-      title: product.title,
-      category: product.category,
-      price: product.price,
-      image: product.image,
-      quantity: 1,
-      is_selected: false,
-    };
-
-    // Debug log payload yang akan dikirim
-    console.log('Payload to insert:', payload);
-
-    const { data, error } = await supabase.from('cart_items').insert([payload]);
-
-    if (error) {
-      console.error('Insert error:', error.message);
+    if (existing && existing.length > 0) {
+      // update qty
+      await supabase
+        .from('cart_items')
+        .update({ quantity: existing[0].quantity + product.quantity })
+        .eq('id', existing[0].id);
     } else {
-      console.log('Insert success:', data);
-      syncCart(); // Refresh cart after insert
+      // insert
+      await supabase.from('cart_items').insert([
+        {
+          user_id: user.id,
+          product_id: product.id,
+          title: product.title,
+          category: product.category,
+          price: product.price,
+          image: product.image,
+          quantity: product.quantity,
+          is_selected: false,
+        },
+      ]);
     }
+
+    await fetchCart();
   };
 
-  const removeFromCart = async (id: number) => {
+  const removeFromCart = async (productId: number) => {
     if (!user?.id) return;
+    const item = cartItems.find((i) => i.id === productId);
+    if (!item) return;
+    await supabase.from('cart_items').delete().eq('id', item.cartItemUuid);
+    await fetchCart();
+  };
 
+  const incrementQuantity = async (productId: number) => {
+    const item = cartItems.find((i) => i.id === productId);
+    if (!item) return;
     await supabase
       .from('cart_items')
-      .delete()
-      .eq('user_id', user.id)
-      .eq('id', id);
-
-    syncCart();
+      .update({ quantity: item.quantity + 1 })
+      .eq('id', item.cartItemUuid);
+    await fetchCart();
   };
 
-  const toggleSelect = (id: number) => {
+  const decrementQuantity = async (productId: number) => {
+    const item = cartItems.find((i) => i.id === productId);
+    if (!item || item.quantity <= 1) return;
+    await supabase
+      .from('cart_items')
+      .update({ quantity: item.quantity - 1 })
+      .eq('id', item.cartItemUuid);
+    await fetchCart();
+  };
+
+  const toggleSelect = (productId: number) => {
     setCartItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, isSelected: !i.isSelected } : i))
+      prev.map((i) =>
+        i.id === productId ? { ...i, isSelected: !i.isSelected } : i
+      )
     );
   };
 
   const toggleSelectAll = () => {
-    const allSelected = cartItems.every((i) => i.isSelected);
-    setCartItems((prev) =>
-      prev.map((i) => ({ ...i, isSelected: !allSelected }))
-    );
-  };
-
-  const incrementQuantity = async (id: number) => {
-    const item = cartItems.find((i) => i.id === id);
-    if (!item || !user?.id) return;
-
-    await supabase
-      .from('cart_items')
-      .update({ quantity: item.quantity + 1 })
-      .eq('user_id', user.id)
-      .eq('id', id);
-
-    syncCart();
-  };
-
-  const decrementQuantity = async (id: number) => {
-    const item = cartItems.find((i) => i.id === id);
-    if (!item || item.quantity <= 1 || !user?.id) return;
-
-    await supabase
-      .from('cart_items')
-      .update({ quantity: item.quantity - 1 })
-      .eq('user_id', user.id)
-      .eq('id', id);
-
-    syncCart();
+    const all = cartItems.every((i) => i.isSelected);
+    setCartItems((prev) => prev.map((i) => ({ ...i, isSelected: !all })));
   };
 
   const removeSelectedFromCart = async () => {
-    const selectedIds = cartItems.filter((i) => i.isSelected).map((i) => i.id);
+    const toRemove = cartItems
+      .filter((i) => i.isSelected)
+      .map((i) => i.cartItemUuid);
+    if (!toRemove.length) return;
+    await supabase.from('cart_items').delete().in('id', toRemove);
+    await fetchCart();
+  };
 
-    if (!user?.id || selectedIds.length === 0) return;
-
+  const updateQuantity = async (productId: number, newQty: number) => {
+    const item = cartItems.find((i) => i.id === productId);
+    if (!item) return;
     await supabase
       .from('cart_items')
-      .delete()
-      .in('id', selectedIds)
-      .eq('user_id', user.id);
-
-    syncCart();
+      .update({ quantity: newQty })
+      .eq('id', item.cartItemUuid);
+    await fetchCart(); // atau syncCart()
   };
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
-        setCartItems,
         addToCart,
         removeFromCart,
-        toggleSelect,
-        toggleSelectAll,
         incrementQuantity,
         decrementQuantity,
+        updateQuantity,
+        toggleSelect,
+        toggleSelectAll,
         removeSelectedFromCart,
       }}
     >
@@ -190,7 +208,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useCart = (): CartContextType => {
+export const useCart = () => {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error('useCart must be inside CartProvider');
   return ctx;

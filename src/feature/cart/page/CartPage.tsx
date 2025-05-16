@@ -1,28 +1,29 @@
-// src/feature/cart/CartPage.tsx
+// src/feature/cart/page/CartPage.tsx
 'use client';
 
-import { useAuth } from '@/context/AuthContext'; // Menggunakan AuthContext
+import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { EmptyPage } from '@/feature/search/page/EmptyPage';
 import { CartItemsSection } from '../section/CartItemsSection';
 import { TotalShopping } from '@/feature/shared/widget/TotalShopping';
 
 export const CartPage = () => {
-  const { session } = useAuth(); // Mengambil sesi dari AuthContext
+  const { session } = useAuth();
 
+  // Ambil hanya fungsi yang ada di CartContextType
   const {
     cartItems,
-    setCartItems,
     removeFromCart,
     incrementQuantity,
     decrementQuantity,
     toggleSelect,
     toggleSelectAll,
     removeSelectedFromCart,
+    // kita perlu fungsi updateQuantity agar bisa langsung set qty custom
+    updateQuantity,
   } = useCart();
 
   if (!session) {
-    // Jika belum login, tampilkan halaman kosong
     return (
       <main className='container mx-auto px-4 min-h-screen'>
         <EmptyPage type='empty-cart' />
@@ -30,14 +31,10 @@ export const CartPage = () => {
     );
   }
 
-  // Pastikan id bertipe number agar sesuai dengan CartItem.id
+  // Gunakan updateQuantity dari context
   const handleQuantityChange = (id: number, newQty: number) => {
     if (newQty < 1) return;
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQty } : item
-      )
-    );
+    updateQuantity(id, newQty);
   };
 
   if (cartItems.length === 0) {
@@ -64,18 +61,20 @@ export const CartPage = () => {
         toggleSelectAll={toggleSelectAll}
         removeSelectedFromCart={removeSelectedFromCart}
         cartItems={cartItems}
-        onIncrement={incrementQuantity}
-        onDecrement={decrementQuantity}
-        onRemove={removeFromCart}
-        onSelect={toggleSelect}
-        onChangeQuantity={handleQuantityChange}
+        onIncrement={(id: number) => incrementQuantity(id)}
+        onDecrement={(id: number) => decrementQuantity(id)}
+        onRemove={(id: number) => removeFromCart(id)}
+        onSelect={(id: number) => toggleSelect(id)}
+        onChangeQuantity={(id: number, qty: number) =>
+          handleQuantityChange(id, qty)
+        }
       />
 
       <TotalShopping
         totalPrice={totalPrice}
         mode='cart'
         items={selectedItems.map((item) => ({
-          title: item.title, // gunakan title, bukan name
+          title: item.title,
           quantity: item.quantity,
           price: item.price,
         }))}

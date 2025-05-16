@@ -40,9 +40,7 @@ export const ProductDetailSection = ({
       setShowAuthModal(true);
       return;
     }
-
     addToCart({
-      // Sesuaikan CartItem: id sebagai number
       id,
       image,
       title,
