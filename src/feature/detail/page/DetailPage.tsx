@@ -20,7 +20,7 @@ export const DetailPage = ({ product, relatedProducts }: DetailPageProps) => {
   }, [pathname]);
 
   return (
-    <main className='container mx-auto pt-22 sm:pt-40 px-4 min-h-screen flex flex-col gap-6'>
+    <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col gap-6'>
       <ProductDetailSection
         id={product.id}
         image={product.image}

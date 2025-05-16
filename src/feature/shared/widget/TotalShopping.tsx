@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 
 type Item = {
-  name: string;
+  title: string;
   quantity: number;
   price: number;
 };
@@ -54,7 +54,7 @@ export const TotalShopping = ({
           {items.map((item, index) => (
             <div key={index} className='flex justify-between text-sm'>
               <Typography>
-                {item.name} × {item.quantity}
+                {item.title} × {item.quantity}
               </Typography>
               <Typography weight='semibold'>
                 ${Number(item.price * item.quantity).toLocaleString()}

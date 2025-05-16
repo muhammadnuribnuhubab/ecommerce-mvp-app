@@ -13,11 +13,11 @@ type CartContextType = {
   cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   addToCart: (item: Omit<CartItem, 'isSelected'>) => void;
-  removeFromCart: (id: string) => void;
-  toggleSelect: (id: string) => void;
+  removeFromCart: (id: number) => void;
+  toggleSelect: (id: number) => void;
   toggleSelectAll: () => void;
-  incrementQuantity: (id: string) => void;
-  decrementQuantity: (id: string) => void;
+  incrementQuantity: (id: number) => void;
+  decrementQuantity: (id: number) => void;
   removeSelectedFromCart: () => void;
 };
 
@@ -52,11 +52,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const removeFromCart = (id: string) => {
+  const removeFromCart = (id: number) => {
     setCartItems((prev) => prev.filter((i) => i.id !== id));
   };
 
-  const toggleSelect = (id: string) => {
+  const toggleSelect = (id: number) => {
     setCartItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, isSelected: !i.isSelected } : i))
     );
@@ -67,13 +67,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCartItems((prev) => prev.map((i) => ({ ...i, isSelected: !all })));
   };
 
-  const incrementQuantity = (id: string) => {
+  const incrementQuantity = (id: number) => {
     setCartItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity: i.quantity + 1 } : i))
     );
   };
 
-  const decrementQuantity = (id: string) => {
+  const decrementQuantity = (id: number) => {
     setCartItems((prev) =>
       prev.map((i) =>
         i.id === id && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i

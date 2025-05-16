@@ -13,11 +13,11 @@ type CartItemsSectionProps = {
   toggleSelectAll: () => void;
   removeSelectedFromCart: () => void;
   cartItems: CartItem[];
-  onIncrement: (id: string) => void;
-  onDecrement: (id: string) => void;
-  onRemove: (id: string) => void;
-  onSelect: (id: string) => void;
-  onChangeQuantity: (id: string, quantity: number) => void; // ✅ Tambahkan prop ini
+  onIncrement: (id: number) => void;
+  onDecrement: (id: number) => void;
+  onRemove: (id: number) => void;
+  onSelect: (id: number) => void;
+  onChangeQuantity: (id: number, quantity: number) => void; // ✅ Tambahkan prop ini
 };
 
 export const CartItemsSection = ({

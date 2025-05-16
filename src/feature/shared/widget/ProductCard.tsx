@@ -21,7 +21,7 @@ export const ProductCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className="w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <div className="w-full bg-white rounded-xl overflow-hidden shadow-2xl  transition-shadow duration-300">
       {/* FIXED HEIGHT wrapper */}
       <div className="relative w-full h-64 bg-white">
         {!isImageLoaded && (

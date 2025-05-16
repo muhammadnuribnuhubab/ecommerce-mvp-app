@@ -32,14 +32,14 @@ export const CheckoutPage = () => {
   // Ambil data query Buy Now
   useEffect(() => {
     const id = searchParams.get('id');
-    const name = searchParams.get('name');
+    const title = searchParams.get('title');
     const category = searchParams.get('category');
     const price = searchParams.get('price');
     const quantity = searchParams.get('quantity');
-    const imageUrl = searchParams.get('imageUrl');
+    const image = searchParams.get('image');
 
     const hasValidQuery =
-      id && name && category && price && quantity && imageUrl;
+      id && title && category && price && quantity && image;
 
     const validCategories: ProductDetail['category'][] = [
       'mens clothing',
@@ -54,12 +54,12 @@ export const CheckoutPage = () => {
       validCategories.includes(category as ProductDetail['category'])
     ) {
       setBuyNowItem({
-        id,
-        name,
+        id: Number(id),
+        title,
         category: category as ProductDetail['category'],
         price: Number(price),
         quantity: Number(quantity),
-        imageUrl,
+        image,
         isSelected: true,
       });
     } else if (!hasValidQuery && selectedItems.length === 0) {
@@ -101,7 +101,7 @@ export const CheckoutPage = () => {
           totalPrice={totalPrice}
           mode='checkout'
           items={itemsToShow.map((i) => ({
-            name: i.name,
+            title: i.title,
             quantity: i.quantity,
             price: i.price,
           }))}

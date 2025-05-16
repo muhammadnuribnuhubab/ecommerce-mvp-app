@@ -30,7 +30,8 @@ export const CartPage = () => {
     );
   }
 
-  const handleQuantityChange = (id: string, newQty: number) => {
+  // Pastikan id bertipe number agar sesuai dengan CartItem.id
+  const handleQuantityChange = (id: number, newQty: number) => {
     if (newQty < 1) return;
     setCartItems((prev) =>
       prev.map((item) =>
@@ -74,7 +75,7 @@ export const CartPage = () => {
         totalPrice={totalPrice}
         mode="cart"
         items={selectedItems.map((item) => ({
-          name: item.name,
+          title: item.title, // gunakan title, bukan name
           quantity: item.quantity,
           price: item.price,
         }))}

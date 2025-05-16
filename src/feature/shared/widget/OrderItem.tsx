@@ -11,17 +11,17 @@ import clsx from 'clsx';
 
 type OrderItemProps = CartItem & {
   mode: 'cart' | 'checkout';
-  onSelect?: (id: string) => void;
-  onIncrement?: (id: string) => void;
-  onDecrement?: (id: string) => void;
-  onRemove?: (id: string) => void;
-  onChangeQuantity?: (id: string, quantity: number) => void; // ✅ Tambahan
+  onSelect?: (id: number) => void;
+  onIncrement?: (id: number) => void;
+  onDecrement?: (id: number) => void;
+  onRemove?: (id: number) => void;
+  onChangeQuantity?: (id: number, quantity: number) => void; // ✅ Tambahan
 };
 
 export const OrderItem = ({
   id,
-  imageUrl,
-  name,
+  image,
+  title,
   category,
   price,
   quantity,
@@ -44,7 +44,8 @@ export const OrderItem = ({
   return (
     <div
       className={clsx(
-        'w-full flex items-start py-4 flex-col sm:flex-row justify-between', isCart && 'gap-4'
+        'w-full flex items-start py-4 flex-col sm:flex-row justify-between',
+        isCart && 'gap-4'
       )}
     >
       {isCart && (
@@ -68,12 +69,12 @@ export const OrderItem = ({
         className='flex justify-between w-full gap-2 cursor-pointer'
         onClick={handleItemClick}
       >
-        <div className='flex gap-4'>
-          <div className='relative w-20 h-20 bg-gray-900 rounded overflow-hidden'>
-            <Image src={imageUrl} alt={name} fill className='object-cover' />
+        <div className='flex gap-4 w-full'>
+          <div className='relative w-full max-w-20 h-20 rounded overflow-hidden bg-white'>
+            <Image src={image} alt={title} fill className='object-contain' />
           </div>
           <div className='flex flex-col'>
-            <Typography weight='semibold'>{name}</Typography>
+            <Typography weight='semibold'>{title}</Typography>
             <Typography color='secondary' size='sm'>
               {category}
             </Typography>
@@ -86,7 +87,7 @@ export const OrderItem = ({
         </div>
         {isCart && (
           <div
-            className='sm:hidden'
+            className='sm:hidden '
             onClick={(e) => {
               e.stopPropagation();
             }}

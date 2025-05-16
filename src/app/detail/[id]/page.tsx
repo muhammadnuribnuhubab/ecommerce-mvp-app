@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 type DetailPageProps = {
-  params: { id: string };
+  params: { id: number };
 };
 
 export default async function DetailPage({ params }: DetailPageProps) {
