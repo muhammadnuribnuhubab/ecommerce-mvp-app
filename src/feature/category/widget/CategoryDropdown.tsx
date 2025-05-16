@@ -14,9 +14,9 @@ export const CategoryDropdown = () => {
   // Ambil segmen terakhir URL, misal "mens clothing" atau "electronics"
   const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
 
-  const handleCategoryClick = (urlKey: string) => {
+  const handleCategoryClick = (apiKey: string) => {
     // Push dengan encodeURIComponent => spasi jadi %20
-    router.push(`/category/${encodeURIComponent(urlKey)}`);
+    router.push(`/category/${encodeURIComponent(apiKey)}`);
     setIsOpen(false);
   };
 
@@ -34,20 +34,20 @@ export const CategoryDropdown = () => {
 
       {isOpen && (
         <ul className='absolute z-10 mt-2 w-full bg-white border rounded-lg shadow-md max-h-64 overflow-y-auto'>
-          {categories.map(({ label, urlKey }) => {
+          {categories.map(({ label, apiKey }) => {
             const isActive =
-              currentCategory.toLowerCase() === urlKey.toLowerCase();
+              currentCategory.toLowerCase() === apiKey.toLowerCase();
 
             return (
-              <li key={urlKey}>
+              <li key={apiKey}>
                 <button
-                  onClick={() => handleCategoryClick(urlKey)}
+                  onClick={() => handleCategoryClick(apiKey)}
                   className='w-full flex items-center gap-2 px-4 py-2 hover:bg-neutral-100'
                 >
                   <Checkbox
                     checked={isActive}
-                    onChange={() => handleCategoryClick(urlKey)}
-                    name={urlKey}
+                    onChange={() => handleCategoryClick(apiKey)}
+                    name={apiKey}
                   />
                   {label}
                 </button>

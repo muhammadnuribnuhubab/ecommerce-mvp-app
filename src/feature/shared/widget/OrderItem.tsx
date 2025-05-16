@@ -8,6 +8,7 @@ import { QuantityControl } from './QuantityControl';
 import { CartItem } from '@/types/cart';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
+import { toTitleCase } from '@/utils/toTitleCase';
 
 type OrderItemProps = CartItem & {
   mode: 'cart' | 'checkout';
@@ -76,7 +77,7 @@ export const OrderItem = ({
           <div className='flex flex-col'>
             <Typography weight='semibold'>{title}</Typography>
             <Typography color='secondary' size='sm'>
-              {category}
+              {toTitleCase(category)}
             </Typography>
             <Typography weight='bold' className='sm:hidden'>
               {isCart

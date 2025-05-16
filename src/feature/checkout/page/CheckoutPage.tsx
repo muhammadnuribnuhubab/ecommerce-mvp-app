@@ -31,40 +31,48 @@ export const CheckoutPage = () => {
 
   // Ambil data query Buy Now
   useEffect(() => {
-    const id = searchParams.get('id');
-    const title = searchParams.get('title');
-    const category = searchParams.get('category');
-    const price = searchParams.get('price');
-    const quantity = searchParams.get('quantity');
-    const image = searchParams.get('image');
+    const timeout = setTimeout(() => {
+      const id = searchParams.get('id');
+      const title = searchParams.get('title');
+      const rawCategory = searchParams.get('category');
+      const category = rawCategory ? decodeURIComponent(rawCategory) : null;
+      const price = searchParams.get('price');
+      const quantity = searchParams.get('quantity');
+      const image = searchParams.get('image');
 
-    const hasValidQuery =
-      id && title && category && price && quantity && image;
+      const hasValidQuery =
+        id && title && category && price && quantity && image;
 
-    const validCategories: ProductDetail['category'][] = [
-      'mens clothing',
-      'jewelery',
-      'electronics',
-      'womens clothing',
-    ];
+      const validCategories: ProductDetail['category'][] = [
+        "men's clothing",
+        "women's clothing",
+        'jewelery',
+        'electronics',
+      ];
 
-    if (
-      hasValidQuery &&
-      !buyNowItem &&
-      validCategories.includes(category as ProductDetail['category'])
-    ) {
-      setBuyNowItem({
-        id: Number(id),
-        title,
-        category: category as ProductDetail['category'],
-        price: Number(price),
-        quantity: Number(quantity),
-        image,
-        isSelected: true,
-      });
-    } else if (!hasValidQuery && selectedItems.length === 0) {
-      router.push('/cart');
-    }
+      console.log('Raw category:', rawCategory);
+      console.log('Decoded category:', category);
+
+      if (
+        hasValidQuery &&
+        !buyNowItem &&
+        validCategories.includes(category as ProductDetail['category'])
+      ) {
+        setBuyNowItem({
+          id: Number(id),
+          title,
+          category: category as ProductDetail['category'],
+          price: Number(price),
+          quantity: Number(quantity),
+          image,
+          isSelected: true,
+        });
+      } else if (!hasValidQuery && selectedItems.length === 0) {
+        router.push('/cart');
+      }
+    }, 100);
+
+    return () => clearTimeout(timeout);
   }, [searchParams, buyNowItem, selectedItems, router]);
 
   // Lock scroll saat modal payment terbuka
@@ -75,7 +83,6 @@ export const CheckoutPage = () => {
     };
   }, [showSelectPayment]);
 
-  // Tentukan item yang akan ditampilkan
   const itemsToShow = buyNowItem ? [buyNowItem] : selectedItems;
   if (itemsToShow.length === 0) return null;
 

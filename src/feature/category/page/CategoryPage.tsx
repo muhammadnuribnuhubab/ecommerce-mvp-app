@@ -8,13 +8,14 @@ import { ProductBase, ProductDetail } from '@/types/product';
 import { getProductsByCategory } from '@/lib/api';
 import { toTitleCase } from '@/utils/toTitleCase';
 import { SkeletonCard } from '@/feature/shared/widget/SkeletonCard';
+import { categories } from '@/types/categories';
 
-const categories = [
-  { label: 'Mens Clothing', apiKey: "men's clothing" },
-  { label: 'Jewelery', apiKey: 'jewelery' },
-  { label: 'Electronics', apiKey: 'electronics' },
-  { label: 'Womens Clothing', apiKey: "women's clothing" },
-];
+// const categories = [
+//   { label: 'Mens Clothing', apiKey: "men's clothing" },
+//   { label: 'Jewelery', apiKey: 'jewelery' },
+//   { label: 'Electronics', apiKey: 'electronics' },
+//   { label: 'Womens Clothing', apiKey: "women's clothing" },
+// ];
 
 export const CategoryPage = () => {
   const params = useParams();

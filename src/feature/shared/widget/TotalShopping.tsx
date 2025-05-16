@@ -52,7 +52,7 @@ export const TotalShopping = ({
       {items.length > 0 && (
         <div className='flex flex-col gap-2'>
           {items.map((item, index) => (
-            <div key={index} className='flex justify-between text-sm'>
+            <div key={index} className='flex justify-between gap-6 text-sm'>
               <Typography>
                 {item.title} × {item.quantity}
               </Typography>

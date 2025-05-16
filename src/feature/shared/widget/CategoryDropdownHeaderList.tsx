@@ -14,8 +14,8 @@ export const CategoryDropdownHeaderList = () => {
   // Ambil segmen terakhir URL, misal "mens-clothing"
   const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
 
-  const handleClick = (categoryUrlKey: string) => {
-    router.push(`/category/${encodeURIComponent(categoryUrlKey)}`);
+  const handleClick = (categoryApiKey: string) => {
+    router.push(`/category/${encodeURIComponent(categoryApiKey)}`);
   };
 
   return (
@@ -31,13 +31,13 @@ export const CategoryDropdownHeaderList = () => {
         Category
       </Typography>
       <div className='flex flex-col items-center justify-center text-center'>
-        {categories.map(({ label, urlKey }) => (
+        {categories.map(({ label, apiKey }) => (
           <CategoryDropdownHeaderItem
-            key={urlKey}
+            key={apiKey}
             label={label}
-            onClick={() => handleClick(urlKey)}
+            onClick={() => handleClick(apiKey)}
             className={
-              currentCategory.toLowerCase() === urlKey.toLowerCase()
+              currentCategory.toLowerCase() === apiKey.toLowerCase()
                 ? 'underline font-semibold text-primary-300'
                 : ''
             }

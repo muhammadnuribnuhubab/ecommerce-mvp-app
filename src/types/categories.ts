@@ -1,12 +1,12 @@
 // src/constants/categories.ts
 export type CategoryType = {
   label: string;
-  urlKey: string;
+  apiKey: string;
 };
 
 export const categories: CategoryType[] = [
-  { label: "Men's Clothing", urlKey: 'mens clothing' },
-  { label: 'Jewelry', urlKey: 'jewelery' },
-  { label: 'Electronics', urlKey: 'electronics' },
-  { label: "Women's Clothing", urlKey: 'womens clothing' },
+  { label: 'Electronics', apiKey: 'electronics' },
+  { label: 'Jewelery', apiKey: 'jewelery' },
+  { label: "Men's Clothing", apiKey: "men's clothing" },
+  { label: "Women's Clothing", apiKey: "women's clothing" },
 ];
