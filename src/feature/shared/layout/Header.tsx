@@ -10,7 +10,7 @@ import { AuthButton } from '../widget/AuthButton';
 import { CartButton } from '../widget/CartButton';
 import { UserActionDropdownList } from '../widget/UserActionDropdownList';
 import { CategoryDropdownHeaderList } from '../widget/CategoryDropdownHeaderList';
-import { useCart } from '@/context/CartContex';
+import { useCart } from '@/context/CartContext';
 import { AuthModal } from '@/feature/auth/widget/AuthModal';
 import { useAuth } from '@/context/AuthContext'; // ✅ gunakan context
 

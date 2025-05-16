@@ -3,7 +3,7 @@
 import '../style/globals.css';
 import { Header } from '@/feature/shared/layout/Header';
 import { Footer } from '@/feature/shared/layout/Footer';
-import { CartProvider } from '@/context/CartContex';
+import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 
 import { useState } from 'react';
@@ -18,7 +18,7 @@ export default function RootLayout({
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
         <SessionContextProvider supabaseClient={supabaseClient}>
           <AuthProvider>

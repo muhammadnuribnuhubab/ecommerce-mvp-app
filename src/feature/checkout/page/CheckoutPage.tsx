@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCart } from '@/context/CartContex';
+import { useCart } from '@/context/CartContext';
 import { CheckoutItemsSection } from '../section/CheckoutItemsSection';
 import { AddressSection } from '../section/AddressSection';
 import { TotalShopping } from '@/feature/shared/widget/TotalShopping';

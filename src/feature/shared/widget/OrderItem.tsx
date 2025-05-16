@@ -39,6 +39,10 @@ export const OrderItem = ({
 
   const handleItemClick = () => {
     if (!isCart) return;
+    if (!id || typeof id !== 'number') {
+      console.error('Invalid product ID:', id);
+      return;
+    }
     router.push(`/detail/${id}`);
   };
 

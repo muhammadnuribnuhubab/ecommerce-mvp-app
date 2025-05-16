@@ -6,7 +6,7 @@ import { Typography } from '@/feature/shared/ui/Typography';
 import { Rating } from '@/feature/shared/widget/Rating';
 import { Button } from '@/feature/shared/ui/Button';
 import { QuantityControl } from '@/feature/shared/widget/QuantityControl';
-import { useCart } from '@/context/CartContex';
+import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { AuthModal } from '@/feature/auth/widget/AuthModal';

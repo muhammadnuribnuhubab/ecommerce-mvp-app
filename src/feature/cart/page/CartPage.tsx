@@ -2,7 +2,7 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext'; // Menggunakan AuthContext
-import { useCart } from '@/context/CartContex';
+import { useCart } from '@/context/CartContext';
 import { EmptyPage } from '@/feature/search/page/EmptyPage';
 import { CartItemsSection } from '../section/CartItemsSection';
 import { TotalShopping } from '@/feature/shared/widget/TotalShopping';
@@ -24,8 +24,8 @@ export const CartPage = () => {
   if (!session) {
     // Jika belum login, tampilkan halaman kosong
     return (
-      <main className="container mx-auto px-4 min-h-screen">
-        <EmptyPage type="empty-cart" />
+      <main className='container mx-auto px-4 min-h-screen'>
+        <EmptyPage type='empty-cart' />
       </main>
     );
   }
@@ -42,8 +42,8 @@ export const CartPage = () => {
 
   if (cartItems.length === 0) {
     return (
-      <main className="container mx-auto px-4 min-h-screen">
-        <EmptyPage type="empty-cart" />
+      <main className='container mx-auto px-4 min-h-screen'>
+        <EmptyPage type='empty-cart' />
       </main>
     );
   }
@@ -57,7 +57,7 @@ export const CartPage = () => {
   );
 
   return (
-    <main className="container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col lg:flex-row lg:justify-between lg:gap-6">
+    <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col lg:flex-row lg:justify-between lg:gap-6'>
       <CartItemsSection
         isAllSelected={isAllSelected}
         isAnySelected={isAnySelected}
@@ -73,14 +73,14 @@ export const CartPage = () => {
 
       <TotalShopping
         totalPrice={totalPrice}
-        mode="cart"
+        mode='cart'
         items={selectedItems.map((item) => ({
           title: item.title, // gunakan title, bukan name
           quantity: item.quantity,
           price: item.price,
         }))}
         onCheckout={() => alert('Proceed to checkout')}
-        className="mt-6 lg:mt-0"
+        className='mt-6 lg:mt-0'
       />
     </main>
   );
