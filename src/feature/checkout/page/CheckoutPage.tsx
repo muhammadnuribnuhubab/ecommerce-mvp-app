@@ -8,6 +8,8 @@ import { AddressSection } from '../section/AddressSection';
 import { TotalShopping } from '@/feature/shared/widget/TotalShopping';
 import { SelectPayment } from '@/feature/checkout/widget/SelectPayment';
 import { StatusPayment } from '@/feature/checkout/widget/StatusPayment';
+import { CartItem } from '@/types/cart';
+import { ProductDetail } from '@/types/product'; // pastikan path ini sesuai
 
 export const CheckoutPage = () => {
   const { cartItems } = useCart();
@@ -18,16 +20,16 @@ export const CheckoutPage = () => {
   const [paymentStatus, setPaymentStatus] = useState<
     'success' | 'failed' | null
   >(null);
-  const [buyNowItem, setBuyNowItem] = useState<any | null>(null);
+  const [buyNowItem, setBuyNowItem] = useState<CartItem | null>(null);
 
   const selectedItems = cartItems.filter((item) => item.isSelected);
 
-  // Scroll to top on mount
+  // Scroll ke atas saat mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Ambil query Buy Now atau redirect jika perlu
+  // Ambil data query Buy Now
   useEffect(() => {
     const id = searchParams.get('id');
     const name = searchParams.get('name');
@@ -39,11 +41,22 @@ export const CheckoutPage = () => {
     const hasValidQuery =
       id && name && category && price && quantity && imageUrl;
 
-    if (hasValidQuery && !buyNowItem) {
+    const validCategories: ProductDetail['category'][] = [
+      'mens clothing',
+      'jewelery',
+      'electronics',
+      'womens clothing',
+    ];
+
+    if (
+      hasValidQuery &&
+      !buyNowItem &&
+      validCategories.includes(category as ProductDetail['category'])
+    ) {
       setBuyNowItem({
         id,
         name,
-        category,
+        category: category as ProductDetail['category'],
         price: Number(price),
         quantity: Number(quantity),
         imageUrl,
@@ -54,7 +67,7 @@ export const CheckoutPage = () => {
     }
   }, [searchParams, buyNowItem, selectedItems, router]);
 
-  // Lock scroll saat modal payment
+  // Lock scroll saat modal payment terbuka
   useEffect(() => {
     document.body.style.overflow = showSelectPayment ? 'hidden' : 'auto';
     return () => {
@@ -62,7 +75,7 @@ export const CheckoutPage = () => {
     };
   }, [showSelectPayment]);
 
-  // Prioritaskan Buy Now item
+  // Tentukan item yang akan ditampilkan
   const itemsToShow = buyNowItem ? [buyNowItem] : selectedItems;
   if (itemsToShow.length === 0) return null;
 

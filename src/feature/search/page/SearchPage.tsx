@@ -1,36 +1,65 @@
-// src/feature/search/page/SearchPage.tsx
-
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { SearchResultPage } from '@/feature/search/page/SearchResultPage';
-import { mockData } from '@/constants/mockData';
-import { ProductBase } from '@/types/product'; // import ProductBase
+import { ProductBase, ProductDetail } from '@/types/product';
 import clsx from 'clsx';
 import { EmptyPage } from './EmptyPage';
-
-const allProducts: ProductBase[] = Object.entries(mockData).flatMap(
-  ([, products]) =>
-    products.map((product) => ({
-      ...product,
-    }))
-);
+import { searchProducts } from '@/lib/api';
+import { SearchIcon } from '@/feature/shared/ui/Icon';
 
 export const SearchPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get('q')?.trim().toLowerCase() || '';
   const hasQuery = query.length > 0;
 
-  const filteredResults = allProducts.filter((product) =>
-    product.name.toLowerCase().includes(query)
-  );
+  const [results, setResults] = useState<ProductBase[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const isEmptyPage = !hasQuery || filteredResults.length === 0;
+  useEffect(() => {
+    if (!hasQuery) return;
 
-  const content = isEmptyPage ? (
+    const fetchResults = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        // Ketahui bahwa searchProducts mengembalikan array ProductDetail
+        const data: ProductDetail[] = await searchProducts(query);
+
+        // Sekarang 'item' sudah bertipe ProductDetail
+        const mapped: ProductBase[] = data.map((item: ProductDetail) => ({
+          id: item.id,
+          title: item.title,
+          image: item.image,
+          price: item.price,
+          rating: {
+            rate: item.rating?.rate ?? 0,
+            count: item.rating?.count ?? 0,
+          },
+        }));
+
+        setResults(mapped);
+      } catch (err) {
+        setError((err as Error).message);
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [hasQuery, query]);
+
+  const isEmptyPage = !hasQuery || (!loading && results.length === 0);
+
+  const content = error ? (
+    <p className='text-red-500'>Error: {error}</p>
+  ) : isEmptyPage ? (
     <EmptyPage type={!hasQuery ? 'no-query' : 'no-results'} query={query} />
   ) : (
-    <SearchResultPage results={filteredResults} query={query} />
+    <SearchResultPage results={results} query={query} />
   );
 
   return (
@@ -40,7 +69,13 @@ export const SearchPage = () => {
         !isEmptyPage && 'pt-22 sm:pt-28'
       )}
     >
-      {content}
+      {loading ? (
+        <div className='flex flex-col items-center justify-center min-h-[65vh]'>
+          <SearchIcon className='!w-30 !h-30 text-gray-500 animate-pulse' />
+        </div>
+      ) : (
+        content
+      )}
     </main>
   );
 };

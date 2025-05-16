@@ -4,29 +4,122 @@ import { Button } from '@/feature/shared/ui/Button';
 import { CloseAction } from '@/feature/shared/widget/CloseAction';
 import { useState } from 'react';
 import { InputField } from '../ui/InputField';
+import { useAuthService } from '@/hooks/useAuthSevice';
 
+// props untuk AuthModal
 type AuthModalProps = {
   mode: 'login' | 'register';
   onClose: () => void;
+  onSwitchMode: (mode: 'login' | 'register') => void;
 };
 
-export const AuthModal = ({ mode, onClose }: AuthModalProps) => {
+export const AuthModal = ({ mode, onClose, onSwitchMode }: AuthModalProps) => {
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const [error, setError] = useState<string | null>(null);
+  const [step, setStep] = useState<'form' | 'checkEmail'>('form');
 
   const isRegister = mode === 'register';
+  const { register, login } = useAuthService();
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      if (isRegister) {
+        if (form.password !== form.confirmPassword) {
+          setError('Passwords do not match');
+          return;
+        }
+
+        // Hanya ambil error, user diabaikan karena tidak digunakan
+        const { error } = await register(form.name, form.email, form.password);
+
+        if (error) {
+          if (
+            error.message.includes(
+              'duplicate key value violates unique constraint'
+            ) &&
+            error.message.includes('users_email_key')
+          ) {
+            setError(
+              'Email is already registered. Please log in or use a different email.'
+            );
+            return;
+          }
+          setError(error.message);
+          return;
+        }
+
+        setStep('checkEmail');
+      } else {
+        await login(form.email, form.password);
+        onClose();
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
+  // Step 2: Tampilkan pesan cek email
+  if (step === 'checkEmail') {
+    if (error) {
+      return null;
+    }
+
+    const isGmail = form.email.toLowerCase().endsWith('@gmail.com');
+
+    return (
+      <div className='fixed inset-0 z-999 bg-black/50 flex items-center justify-center px-4'>
+        <div className='relative bg-white w-full max-w-md rounded-xl p-6 text-center'>
+          <CloseAction title='Registration Success' onClose={onClose} />
+
+          <p className='mt-4'>
+            Terima kasih sudah mendaftar!
+            <br />
+            Silakan <strong>cek email</strong> kamu (<em>{form.email}</em>)
+            <br />
+            untuk memverifikasi akun.
+          </p>
+
+          <div className='mt-6 space-y-3'>
+            {isGmail ? (
+              <a
+                href='https://mail.google.com'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex justify-center items-center gap-1 sm:gap-2 py-3 sm:py-4 px-3 sm:px-4 rounded-full font-semibold text-sm sm:text-base cursor-pointer transition-colors bg-white hover:bg-neutral-300 border border-neutral-300 text-neutral-950'
+              >
+                Buka Gmail
+              </a>
+            ) : (
+              <a
+                href={`mailto:${form.email}`}
+                className='flex justify-center items-center gap-1 sm:gap-2 py-3 sm:py-4 px-3 sm:px-4 rounded-full font-semibold text-sm sm:text-base cursor-pointer transition-colors bg-white hover:bg-neutral-300 border border-neutral-300 text-neutral-950'
+              >
+                Buka Email
+              </a>
+            )}
+
+            <Button className='w-full' onClick={onClose}>
+              Close
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 1: Form login/register
   return (
     <div className='fixed inset-0 z-999 bg-black/50 flex items-center justify-center px-4'>
       <div className='relative bg-white w-full max-w-lg rounded-xl p-6'>
@@ -35,7 +128,7 @@ export const AuthModal = ({ mode, onClose }: AuthModalProps) => {
           onClose={onClose}
         />
 
-        <form className='pt-4 space-y-4'>
+        <form className='pt-4 space-y-4' onSubmit={handleSubmit}>
           {isRegister && (
             <InputField
               label='Name'
@@ -80,6 +173,8 @@ export const AuthModal = ({ mode, onClose }: AuthModalProps) => {
             />
           )}
 
+          {error && <div className='text-red-600 text-sm'>{error}</div>}
+
           <Button type='submit' className='w-full mt-8'>
             {isRegister ? 'Register' : 'Login'}
           </Button>
@@ -91,10 +186,7 @@ export const AuthModal = ({ mode, onClose }: AuthModalProps) => {
                 <button
                   type='button'
                   className='text-blue-600 hover:underline'
-                  onClick={() => {
-                    // TODO: replace with mode switch logic
-                    alert('Switch to login');
-                  }}
+                  onClick={() => onSwitchMode('login')}
                 >
                   Log in
                 </button>
@@ -105,10 +197,7 @@ export const AuthModal = ({ mode, onClose }: AuthModalProps) => {
                 <button
                   type='button'
                   className='text-blue-600 hover:underline'
-                  onClick={() => {
-                    // TODO: replace with mode switch logic
-                    alert('Switch to register');
-                  }}
+                  onClick={() => onSwitchMode('register')}
                 >
                   Register
                 </button>

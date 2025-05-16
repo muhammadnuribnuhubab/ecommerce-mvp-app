@@ -14,7 +14,7 @@ type BreadcrumbProps = {
 
 export const Breadcrumb = ({ items }: BreadcrumbProps) => {
   return (
-    <nav className='text-sm text-primary-300'>
+    <nav className='text-sm'>
       <ol className='flex items-center space-x-1'>
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -28,7 +28,7 @@ export const Breadcrumb = ({ items }: BreadcrumbProps) => {
                   {item.label}
                 </Link>
               ) : (
-                <span className='text-neutral-950 font-medium'>
+                <span className='text-primary-300 font-medium'>
                   {item.label}
                 </span>
               )}

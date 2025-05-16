@@ -30,12 +30,9 @@ export const SelectPayment = ({
   // Menyertakan daftar bank di dalam komponen
   const banks: Bank[] = [
     { name: 'PayPal', imageUrl: '/images/checkout/payment/paypal.svg' },
-    { name: 'Stripe', imageUrl: '/images/checkout/payment/stripe.svg' },
-    { name: 'Visa Credit Card', imageUrl: '/images/checkout/payment/visa.svg' },
-    {
-      name: 'MasterCard Credit Card',
-      imageUrl: '/images/checkout/payment/mastercard.svg',
-    },
+    { name: 'Card', imageUrl: '/images/checkout/payment/mastercard.svg' },
+    { name: 'Google Pay', imageUrl: '/images/checkout/payment/googlepay.svg' },
+    { name: 'Apple Pay', imageUrl: '/images/checkout/payment/applepay.svg' },
   ];
 
   const handleBankSelect = (index: number) => {

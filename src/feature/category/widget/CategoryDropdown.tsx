@@ -4,34 +4,27 @@ import { ChevronIcon } from '@/feature/shared/ui/Icon';
 import { useState } from 'react';
 import { Checkbox } from '@/feature/shared/ui/Checkbox';
 import { useRouter, usePathname } from 'next/navigation';
-import { categories } from '@/feature/shared/widget/CategoryDropdownHeaderList';
+import { categories } from '@/types/categories';
 
-type CategoryDropdownProps = {
-  selected: string[];
-  onSelect: (category: string) => void;
-  categories: string[];
-};
-
-export const CategoryDropdown = ({
-  onSelect,
-}: CategoryDropdownProps) => {
+export const CategoryDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleCategoryClick = (category: string) => {
-    onSelect(category);
-    router.push(`/category/${encodeURIComponent(category)}`);
+  // Ambil segmen terakhir URL, misal "mens clothing" atau "electronics"
+  const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
+
+  const handleCategoryClick = (urlKey: string) => {
+    // Push dengan encodeURIComponent => spasi jadi %20
+    router.push(`/category/${encodeURIComponent(urlKey)}`);
     setIsOpen(false);
   };
-
-  const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
 
   return (
     <div className='relative inline-block text-left w-full'>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className='w-full flex items-center justify-between gap-2 px-4 py-2 border border-neutral-300 rounded-lg font-semibold text-sm sm:text-base bg-white hover:bg-neutral-50 focus:outline-none'
+        className='w-full flex items-center justify-between gap-2 px-4 py-2 border rounded-lg font-semibold bg-white hover:bg-neutral-50'
       >
         Category
         <ChevronIcon
@@ -40,23 +33,23 @@ export const CategoryDropdown = ({
       </button>
 
       {isOpen && (
-        <ul className='absolute z-10 mt-2 w-full bg-white border border-neutral-300 rounded-lg shadow-md max-h-64 overflow-y-auto'>
-          {categories.map((category) => {
+        <ul className='absolute z-10 mt-2 w-full bg-white border rounded-lg shadow-md max-h-64 overflow-y-auto'>
+          {categories.map(({ label, urlKey }) => {
             const isActive =
-              currentCategory.toLowerCase() === category.toLowerCase();
+              currentCategory.toLowerCase() === urlKey.toLowerCase();
 
             return (
-              <li key={category}>
+              <li key={urlKey}>
                 <button
-                  onClick={() => handleCategoryClick(category)}
-                  className='w-full flex items-center gap-2 px-4 py-2 text-sm sm:text-base hover:bg-neutral-100'
+                  onClick={() => handleCategoryClick(urlKey)}
+                  className='w-full flex items-center gap-2 px-4 py-2 hover:bg-neutral-100'
                 >
                   <Checkbox
                     checked={isActive}
-                    onChange={() => handleCategoryClick(category)}
-                    name={category}
+                    onChange={() => handleCategoryClick(urlKey)}
+                    name={urlKey}
                   />
-                  {category}
+                  {label}
                 </button>
               </li>
             );

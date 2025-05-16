@@ -17,7 +17,7 @@ export const Footer = () => {
   return (
     <footer className='w-full py-8 px-4 border-t bg-white border-neutral-300 mt-10 lg:mt-20'>
       <div className='container mx-auto flex flex-col lg:flex-row justify-between gap-6'>
-        <div className='flex flex-col gap-6 lg:max-w-md'>
+        <div className='flex flex-col gap-6 '>
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-3'>
               <Logo />
@@ -31,9 +31,8 @@ export const Footer = () => {
                 commercéll
               </Typography>
             </div>
-            <Typography as='p'>
-              Lorem ipsum dolor sit amet consectetur. Fusce cursus metus libero
-              posuere sapien. Nulla cras nullam sed interdum orci ac et gravida.
+            <Typography as='p' className='text-justify'>
+              commercéll is an MVP simulation of an e-commerce app that includes basic features like product browsing, cart management, and checkout. It&apos;s built to test ideas and core flows quickly.
             </Typography>
           </div>
 
@@ -84,38 +83,6 @@ export const Footer = () => {
               </Link>
             </div>
           </div>
-        </div>
-
-        <div className='flex flex-col gap-4'>
-          <Typography as='h2' size='base' color='primary' weight='bold'>
-            commercéll
-          </Typography>
-          <Link href='/' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>About Us</Typography>
-          </Link>
-          <Link href='/search' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>Terms & Condition</Typography>
-          </Link>
-          <Link href='/about' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>Privacy Policy</Typography>
-          </Link>
-          <Link href='/about' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>Blog</Typography>
-          </Link>
-        </div>
-        <div className='flex flex-col gap-4'>
-          <Typography as='h2' size='base' color='primary' weight='bold'>
-            Help
-          </Typography>
-          <Link href='/' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>How to Transact</Typography>
-          </Link>
-          <Link href='/search' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>Payment Method</Typography>
-          </Link>
-          <Link href='/about' className='text-neutral-950 hover:underline'>
-            <Typography as='p'>How to Register</Typography>
-          </Link>
         </div>
       </div>
     </footer>

@@ -1,19 +1,15 @@
-// src/types/product.ts
-
-import { mockData } from '@/constants/mockData';
-
-export type Category = keyof typeof mockData;
-
 export type ProductBase = {
-  id: string;
-  name: string;
-  imageUrl: string;
+  id: number; // dari fakestoreapi id bertipe number
+  title: string;
+  image: string;
   price: number;
-  rating: number;
+  rating: {
+    rate: number; // angka rating (contoh: 3.9)
+    count: number; // jumlah review (contoh: 120)
+  };
 };
 
 export type ProductDetail = ProductBase & {
-  reviews: number;
   description: string;
-  category: Category;
+  category: string; // fakestoreapi pakai string biasa, misal "men's clothing"
 };

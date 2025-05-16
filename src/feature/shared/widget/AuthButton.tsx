@@ -4,18 +4,37 @@
 
 import { Button } from '../ui/Button';
 
-export const AuthButton = () => {
+type AuthButtonProps = {
+  onLoginClick: () => void;
+  onRegisterClick: () => void;
+};
+
+export const AuthButton = ({
+  onLoginClick,
+  onRegisterClick,
+}: AuthButtonProps) => {
   return (
     <>
-      <Button className='lg:hidden' variant='secondary'>
+      <Button className='lg:hidden' variant='secondary' onClick={onLoginClick}>
         Login
       </Button>
-      <Button className='lg:hidden'>Register</Button>
+      <Button className='lg:hidden' onClick={onRegisterClick}>
+        Register
+      </Button>
 
-      <Button className='hidden lg:inline-flex !w-[144px]' variant='secondary'>
+      <Button
+        className='hidden lg:inline-flex !w-[144px]'
+        variant='secondary'
+        onClick={onLoginClick}
+      >
         Login
       </Button>
-      <Button className='hidden lg:inline-flex !w-[144px]'>Register</Button>
+      <Button
+        className='hidden lg:inline-flex !w-[144px]'
+        onClick={onRegisterClick}
+      >
+        Register
+      </Button>
     </>
   );
 };

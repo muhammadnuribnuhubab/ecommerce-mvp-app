@@ -1,25 +1,18 @@
 // src/feature/search/page/SearchResultPage.tsx
 
-import { ProductSummary } from './SearchPage';
+import { ProductBase } from '@/types/product';
 import { ProductListSection } from '@/feature/shared/section/ProductListSection';
 
 type SearchResultPageProps = {
-  results: ProductSummary[];
+  results: ProductBase[];
   query: string;
 };
 
 export const SearchResultPage = ({ results, query }: SearchResultPageProps) => {
-  const productList = results.map((product) => ({
-    id: product.id,
-    name: product.name,
-    imageUrl: product.imageUrl,
-    price: product.price,
-  }));
-
   return (
     <ProductListSection
       title={`Search Results for "${query}"`}
-      products={productList}
+      products={results} // langsung kirim data sesuai ProductBase
     />
   );
 };

@@ -7,6 +7,7 @@ import { Checkbox } from '@/feature/shared/ui/Checkbox';
 import { QuantityControl } from './QuantityControl';
 import { CartItem } from '@/types/cart';
 import { useRouter } from 'next/navigation';
+import clsx from 'clsx';
 
 type OrderItemProps = CartItem & {
   mode: 'cart' | 'checkout';
@@ -41,7 +42,11 @@ export const OrderItem = ({
   };
 
   return (
-    <div className='w-full flex items-start gap-4 py-4 flex-col sm:flex-row justify-between'>
+    <div
+      className={clsx(
+        'w-full flex items-start py-4 flex-col sm:flex-row justify-between', isCart && 'gap-4'
+      )}
+    >
       {isCart && (
         <div
           className='hidden sm:inline-block'

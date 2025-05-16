@@ -25,10 +25,10 @@ export const ProductListSection = ({
         {products.map((product) => (
           <Link key={product.id} href={`/detail/${product.id}`}>
             <ProductCard
-              imageUrl={product.imageUrl}
-              name={product.name}
+              image={product.image}
+              title={product.title}
               price={product.price}
-              rating={4.5}
+              rating={product.rating.rate}
             />
           </Link>
         ))}

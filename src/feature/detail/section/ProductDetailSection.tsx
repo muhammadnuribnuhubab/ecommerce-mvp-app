@@ -2,48 +2,50 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Typography } from '../../shared/ui/Typography';
-import { Rating } from '../../shared/widget/Rating';
-import { Button } from '../../shared/ui/Button';
+import { Typography } from '@/feature/shared/ui/Typography';
+import { Rating } from '@/feature/shared/widget/Rating';
+import { Button } from '@/feature/shared/ui/Button';
 import { QuantityControl } from '@/feature/shared/widget/QuantityControl';
 import { useCart } from '@/context/CartContex';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { AuthModal } from '@/feature/auth/widget/AuthModal';
+import { toast } from 'react-toastify';
 import type { ProductDetail } from '@/types/product';
+import { toTitleCase } from '@/utils/toTitleCase';
 
 type ProductDetailSectionProps = Pick<
   ProductDetail,
-  'imageUrl' | 'category' | 'name' | 'price' | 'rating' | 'reviews' | 'description'
-> & {
-  onAddToCart: () => void;
-  onBuyNow: () => void;
-};
+  'id' | 'image' | 'category' | 'title' | 'price' | 'rating' | 'description'
+>;
 
 export const ProductDetailSection = ({
-  imageUrl,
+  id,
+  image,
   category,
-  name,
+  title,
   price,
   rating,
-  reviews,
   description,
 }: ProductDetailSectionProps) => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
-  const params = useParams();
   const router = useRouter();
-
-  const productId = params?.id as string;
+  const { session } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleAddToCart = () => {
-    if (!productId) {
-      console.error('Product ID tidak ditemukan dari URL.');
+    if (!session) {
+      toast.error('Kamu harus login dulu!');
+      setShowAuthModal(true);
       return;
     }
 
     addToCart({
-      id: productId,
-      imageUrl,
-      name,
+      // Sesuaikan CartItem: id sebagai number
+      id,
+      image,
+      title,
       category,
       price,
       quantity,
@@ -51,76 +53,97 @@ export const ProductDetailSection = ({
   };
 
   const handleBuyNow = () => {
-    if (!productId) {
-      console.error('Product ID tidak ditemukan dari URL.');
+    if (!session) {
+      toast.error('Kamu harus login dulu!');
+      setShowAuthModal(true);
       return;
     }
 
-    const queryParams = new URLSearchParams({
-      id: productId,
-      imageUrl,
-      name,
+    // Bangun query string dengan URLSearchParams
+    const params = new URLSearchParams({
+      id: id.toString(),
+      image: image,
+      title,
       category,
       price: price.toString(),
       quantity: quantity.toString(),
-    }).toString();
+    });
 
-    router.push(`/checkout?${queryParams}`);
+    router.push(`/checkout?${params.toString()}`);
   };
 
   return (
-    <div className='flex flex-col sm:flex-row gap-6'>
-      <div className='relative w-full sm:min-w-[300px] sm:max-h-[300px] md:min-w-[400px] md:min-h-[400px] md:max-w-[400px] md:max-h-[400px] aspect-square bg-gray-400'>
-        <Image src={imageUrl} alt={name} fill className='object-cover' />
-      </div>
+    <>
+      {showAuthModal && (
+        <AuthModal
+          mode='login'
+          onClose={() => setShowAuthModal(false)}
+          onSwitchMode={(mode) => console.log('Switch to', mode)}
+        />
+      )}
 
-      <div className='flex flex-col gap-4 w-full'>
-        <div className='flex flex-col gap-1'>
-          <Typography color='secondary'>{category}</Typography>
-          <Typography as='h1' size='base' weight='semibold' className='block'>
-            {name}
-          </Typography>
-          <Typography as='h2' size='xl' weight='bold'>
-            $ {price.toLocaleString()}
-          </Typography>
-          <Typography className='flex items-center gap-1'>
-            <Rating value={rating} /> ({reviews} reviews)
-          </Typography>
-        </div>
-
-        <div className='flex flex-col gap-1 border-y border-neutral-300 py-4'>
-          <Typography weight='semibold'>Description</Typography>
-          <Typography>{description}</Typography>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography weight='semibold'>Quantity</Typography>
-          <QuantityControl
-            quantity={quantity}
-            onIncrement={() => setQuantity((q) => q + 1)}
-            onDecrement={() => setQuantity((q) => Math.max(1, q - 1))}
-            onChange={(val) => setQuantity(val)}
-            min={1}
-            max={99}
+      <div className='flex flex-col lg:flex-row gap-6'>
+        <div className='relative w-full lg:w-2/5 bg-white flex items-center justify-center'>
+          <Image
+            src={image}
+            alt={title}
+            width={600}
+            height={600}
+            className='w-full h-auto object-contain'
+            unoptimized
           />
         </div>
 
-        <div className='flex flex-col sm:flex-row gap-2'>
-          <Button
-            variant='secondary'
-            className='sm:w-1/2'
-            onClick={handleAddToCart}
-          >
-            Add to Cart
-          </Button>
-          <Button
-            className='sm:w-1/2'
-            onClick={handleBuyNow}
-          >
-            Buy Now
-          </Button>
+        <div className='flex flex-col gap-4 w-full'>
+          {/* Info Produk */}
+          <div className='flex flex-col gap-1'>
+            <Typography color='secondary'>{toTitleCase(category)}</Typography>
+            <Typography as='h1' size='lg' weight='semibold'>
+              {title}
+            </Typography>
+            <Typography as='h2' size='xl' weight='bold'>
+              $ {price.toLocaleString()}
+            </Typography>
+            <div className='flex items-center gap-2'>
+              <Rating value={rating.rate} />
+              <Typography size='sm'>({rating.count} reviews)</Typography>
+            </div>
+          </div>
+
+          {/* Deskripsi */}
+          <div className='flex flex-col gap-1 border-y border-neutral-300 py-4'>
+            <Typography weight='semibold'>Description</Typography>
+            <Typography>{description}</Typography>
+          </div>
+
+          {/* Quantity */}
+          <div className='flex flex-col gap-2'>
+            <Typography weight='semibold'>Quantity</Typography>
+            <QuantityControl
+              quantity={quantity}
+              onIncrement={() => setQuantity((q) => q + 1)}
+              onDecrement={() => setQuantity((q) => Math.max(1, q - 1))}
+              onChange={(val) => setQuantity(val)}
+              min={1}
+              max={99}
+            />
+          </div>
+
+          {/* Tombol Aksi */}
+          <div className='flex flex-col sm:flex-row gap-2'>
+            <Button
+              variant='secondary'
+              className='sm:w-1/2'
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </Button>
+            <Button className='sm:w-1/2' onClick={handleBuyNow}>
+              Buy Now
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

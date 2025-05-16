@@ -1,22 +1,34 @@
-// src/app/layout.tsx
+'use client';
+
 import '../style/globals.css';
 import { Header } from '@/feature/shared/layout/Header';
 import { Footer } from '@/feature/shared/layout/Footer';
 import { CartProvider } from '@/context/CartContex';
+import { AuthProvider } from '@/context/AuthContext';
+
+import { useState } from 'react';
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <html lang='en'>
+    <html lang="en">
       <body>
-        <CartProvider>
-          <Header />
-          {children}
-          <Footer />
-        </CartProvider>
+        <SessionContextProvider supabaseClient={supabaseClient}>
+          <AuthProvider>
+            <CartProvider>
+              <Header />
+              {children}
+              <Footer />
+            </CartProvider>
+          </AuthProvider>
+        </SessionContextProvider>
       </body>
     </html>
   );

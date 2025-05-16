@@ -5,22 +5,17 @@ import { DropdownWrapper } from './DropdownWrapper';
 import { CategoryDropdownHeaderTrigger } from './CategoryDropdownHeaderTrigger';
 import { CategoryDropdownHeaderItem } from './CategoryDropdownHeaderItem';
 import { Typography } from '../ui/Typography';
-
-export const categories = [
-  'mens clothing',
-  'jewelery',
-  'electronics',
-  'womens clothing',
-];
+import { categories } from '@/types/categories';
 
 export const CategoryDropdownHeaderList = () => {
   const pathname = usePathname();
   const router = useRouter();
 
+  // Ambil segmen terakhir URL, misal "mens-clothing"
   const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
 
-  const handleClick = (category: string) => {
-    router.push(`/category/${encodeURIComponent(category)}`);
+  const handleClick = (categoryUrlKey: string) => {
+    router.push(`/category/${encodeURIComponent(categoryUrlKey)}`);
   };
 
   return (
@@ -36,13 +31,13 @@ export const CategoryDropdownHeaderList = () => {
         Category
       </Typography>
       <div className='flex flex-col items-center justify-center text-center'>
-        {categories.map((category, index) => (
+        {categories.map(({ label, urlKey }) => (
           <CategoryDropdownHeaderItem
-            key={index}
-            label={category}
-            onClick={() => handleClick(category)}
+            key={urlKey}
+            label={label}
+            onClick={() => handleClick(urlKey)}
             className={
-              currentCategory.toLowerCase() === category.toLowerCase()
+              currentCategory.toLowerCase() === urlKey.toLowerCase()
                 ? 'underline font-semibold text-primary-300'
                 : ''
             }

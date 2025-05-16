@@ -1,56 +1,38 @@
 // src/app/detail/[id]/page.tsx
 
 import type { Metadata } from 'next';
+import { DetailPage as DetailPageComponent } from '@/feature/detail/page/DetailPage';
+import { getProductDetail, getProductsByCategory } from '@/lib/api';
+import type { ProductDetail } from '@/types/product';
 
 export const metadata: Metadata = {
   title: 'Detail | commercéll',
 };
 
-import { DetailPage as DetailPageComponent } from '@/feature/detail/page/DetailPage';
-import { mockData } from '@/constants/mockData';
-import { ProductDetail, Category } from '@/types/product';
-
 type DetailPageProps = {
   params: { id: string };
 };
 
-const getProductDetail = (id: string): ProductDetail | null => {
-  const categories = Object.keys(mockData) as Category[];
+export default async function DetailPage({ params }: DetailPageProps) {
+  const id = Number(params.id);
 
-  for (const category of categories) {
-    const products = mockData[category];
-    const found = products.find((p) => p.id === id);
-    if (found) {
-      return {
-        ...found,
-        category,
-      };
-    }
-  }
-
-  return null;
-};
-
-const getRelatedProducts = (
-  category: Category,
-  excludeId: string
-): ProductDetail[] => {
-  return mockData[category]
-    .map((product) => ({
-      ...product,
-      category,
-    }))
-    .filter((product) => product.id !== excludeId);
-};
-
-export default function DetailPage({ params }: DetailPageProps) {
-  const product = getProductDetail(params.id);
-
-  if (!product) {
+  let product: ProductDetail | null = null;
+  try {
+    product = await getProductDetail(id);
+  } catch (error) {
+    console.error(error);
     return <div className='p-4'>Product not found</div>;
   }
 
-  const relatedProducts = getRelatedProducts(product.category, product.id);
+  let relatedProducts: ProductDetail[] = [];
+  try {
+    const allInCategory = await getProductsByCategory(product.category);
+    relatedProducts = allInCategory.filter((p) => p.id !== id);
+  } catch (error) {
+    console.error(error);
+  }
 
-  return <DetailPageComponent product={product} relatedProducts={relatedProducts} />;
+  return (
+    <DetailPageComponent product={product} relatedProducts={relatedProducts} />
+  );
 }

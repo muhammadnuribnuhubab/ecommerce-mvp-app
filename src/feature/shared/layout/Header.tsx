@@ -1,5 +1,3 @@
-// src/feature/shared/layout/Header.tsx
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -13,17 +11,24 @@ import { CartButton } from '../widget/CartButton';
 import { UserActionDropdownList } from '../widget/UserActionDropdownList';
 import { CategoryDropdownHeaderList } from '../widget/CategoryDropdownHeaderList';
 import { useCart } from '@/context/CartContex';
+import { AuthModal } from '@/feature/auth/widget/AuthModal';
+import { useAuth } from '@/context/AuthContext'; // ✅ gunakan context
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const isLoggedIn = false;
+  const [authModal, setAuthModal] = useState<'login' | 'register' | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { session } = useAuth(); // ✅ akses session dari context
+  const isLoggedIn = !!session;
+
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   useEffect(() => {
-    if (isMenuOpen) {
+    // Menambahkan style overflow hidden pada body ketika modal atau menu dibuka
+    if (isMenuOpen || isSearchOpen || authModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -32,7 +37,7 @@ export const Header = () => {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isSearchOpen, authModal]);
 
   useEffect(() => {
     if (isSearchOpen && inputRef.current) {
@@ -83,7 +88,14 @@ export const Header = () => {
           </button>
 
           <div className='hidden lg:flex items-center gap-3'>
-            {isLoggedIn ? <UserActionDropdownList /> : <AuthButton />}
+            {isLoggedIn ? (
+              <UserActionDropdownList />
+            ) : (
+              <AuthButton
+                onLoginClick={() => setAuthModal('login')}
+                onRegisterClick={() => setAuthModal('register')}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -103,18 +115,33 @@ export const Header = () => {
       )}
 
       {isMenuOpen && (
-        <div className='absolute inset-0 z-50 p-4  sm:py-5.5 lg:hidden bg-white min-h-screen'>
+        <div className='absolute inset-0 z-50 p-4 sm:py-5.5 lg:hidden bg-white min-h-screen'>
           <div className='container mx-auto'>
             <CloseAction
               title='Menu'
               onClose={handleCloseMenu}
               className='!size-10'
             />
-            <div className='flex gap-3 pt-6 sm:pt-10 '>
-              {isLoggedIn ? <UserActionDropdownList /> : <AuthButton />}
+            <div className='flex gap-3 pt-6 sm:pt-10'>
+              {isLoggedIn ? (
+                <UserActionDropdownList />
+              ) : (
+                <AuthButton
+                  onLoginClick={() => setAuthModal('login')}
+                  onRegisterClick={() => setAuthModal('register')}
+                />
+              )}
             </div>
           </div>
         </div>
+      )}
+
+      {authModal && (
+        <AuthModal
+          mode={authModal}
+          onClose={() => setAuthModal(null)}
+          onSwitchMode={(mode) => setAuthModal(mode)}
+        />
       )}
     </header>
   );
