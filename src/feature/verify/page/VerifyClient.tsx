@@ -30,7 +30,9 @@ export default function VerifyClient() {
       return;
     }
 
-    setMessage('Verification successful. Welcome to commercéll!');
+    setMessage(
+      'Verification successful. If you haven’t logged in yet, please log in to continue.'
+    );
     setStatus('success');
   }, [params]);
 
@@ -41,10 +43,11 @@ export default function VerifyClient() {
       )}
 
       {status === 'success' && (
-        <div className='text-center space-y-4 flex flex-col'>
+        <div className='text-center space-y-4 flex flex-col justify-center items-center'>
           <Typography size='2xl' weight='bold'>
             Success
           </Typography>
+
           <Typography>{message}</Typography>
           <Button onClick={() => (window.location.href = '/')} className='mt-2'>
             Home

@@ -5,6 +5,7 @@ import { CloseAction } from '@/feature/shared/widget/CloseAction';
 import { useState } from 'react';
 import { InputField } from '../ui/InputField';
 import { useAuthService } from '@/hooks/useAuthSevice';
+import { Typography } from '@/feature/shared/ui/Typography';
 
 // props untuk AuthModal
 type AuthModalProps = {
@@ -80,16 +81,13 @@ export const AuthModal = ({ mode, onClose, onSwitchMode }: AuthModalProps) => {
 
     return (
       <div className='fixed inset-0 z-999 bg-black/50 flex items-center justify-center px-4'>
-        <div className='relative bg-white w-full max-w-md rounded-xl p-6 text-center'>
+        <div className='relative bg-white w-full max-w-md rounded-xl p-6 space-y-4'>
           <CloseAction title='Registration Success' onClose={onClose} />
 
-          <p className='mt-4'>
-            Terima kasih sudah mendaftar!
-            <br />
-            Silakan <strong>cek email</strong> kamu (<em>{form.email}</em>)
-            <br />
-            untuk memverifikasi akun.
-          </p>
+          <Typography className='mt-4 text-left'>
+            Thank you for signing up! Please <strong>check your email</strong> (
+            <em>{form.email}</em>) to verify your account.
+          </Typography>
 
           <div className='mt-6 space-y-3'>
             {isGmail ? (
