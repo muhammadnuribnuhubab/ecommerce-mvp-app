@@ -183,7 +183,7 @@ export const AuthModal = ({ mode, onClose, onSwitchMode }: AuthModalProps) => {
                 Already have an account?{' '}
                 <button
                   type='button'
-                  className='text-blue-600 hover:underline'
+                  className='text-blue-600 hover:underline cursor-pointer'
                   onClick={() => onSwitchMode('login')}
                 >
                   Log in
@@ -194,7 +194,7 @@ export const AuthModal = ({ mode, onClose, onSwitchMode }: AuthModalProps) => {
                 Don&apos;t have an account?{' '}
                 <button
                   type='button'
-                  className='text-blue-600 hover:underline'
+                  className='text-blue-600 hover:underline cursor-pointer'
                   onClick={() => onSwitchMode('register')}
                 >
                   Register

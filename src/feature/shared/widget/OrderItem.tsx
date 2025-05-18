@@ -85,13 +85,18 @@ export const OrderItem = ({
               />
             </div>
             <div className='flex flex-col'>
-              <Typography weight='semibold'>
-                {isCart ? `${title}` : `${title} (${quantity})`}
-              </Typography>
-              <Typography color='secondary' size='sm'>
+              <Typography
+                color='secondary'
+                size='sm'
+                className='order-1 sm:order-2'
+              >
                 {toTitleCase(category)}
               </Typography>
-              <Typography weight='bold' className='sm:hidden'>
+
+              <Typography weight='semibold' className='order-2 sm:order-1'>
+                {isCart ? `${title}` : `${title} (${quantity})`}
+              </Typography>
+              <Typography weight='bold' className='sm:hidden order-3'>
                 ${price.toLocaleString()}
               </Typography>
             </div>

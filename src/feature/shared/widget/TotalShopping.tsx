@@ -4,6 +4,7 @@ import { Typography } from '@/feature/shared/ui/Typography';
 import { Button } from '@/feature/shared/ui/Button';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 type Item = {
   title: string;
@@ -30,12 +31,23 @@ export const TotalShopping = ({
 }: TotalShoppingProps) => {
   const isCheckout = mode === 'checkout';
   const router = useRouter();
+  const [warningMessage, setWarningMessage] = useState('');
 
   const handleClick = () => {
     if (isCheckout) {
-      onCheckout?.(); // bisa lanjut ke pembayaran
+      if (disabled) {
+        setWarningMessage('Please fill in your Shipping Address first.');
+        return;
+      }
+      setWarningMessage('');
+      onCheckout?.();
     } else {
-      router.push('/checkout'); // ⬅️ arahkan ke halaman checkout
+      if (items.length === 0) {
+        setWarningMessage('Please select at least one item.');
+        return;
+      }
+      setWarningMessage('');
+      router.push('/checkout');
     }
   };
 
@@ -71,11 +83,16 @@ export const TotalShopping = ({
         <Typography weight='bold'>${totalPrice.toLocaleString()}</Typography>
       </div>
 
+      {warningMessage && (
+        <p className='text-red-500 text-sm mt-1'>{warningMessage}</p>
+      )}
+
       <Button
         variant='primary'
         onClick={handleClick}
-        disabled={items.length === 0 || disabled}
-        className='mt-4'
+        className={clsx('mt-2', {
+          'opacity-50 cursor-not-allowed': (isCheckout && disabled) || (!isCheckout && items.length === 0),
+        })}
       >
         {isCheckout ? 'Select Payment Method' : 'Checkout'}
       </Button>

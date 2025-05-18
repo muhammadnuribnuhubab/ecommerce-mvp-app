@@ -48,7 +48,6 @@ export const SearchInput = ({ className, inputRef }: SearchInputProps) => {
     <div className={clsx('relative w-full', className)}>
       <SearchIcon className='absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500' />
       <input
-        type='search'
         value={query}
         ref={inputRef}
         onChange={handleChange}

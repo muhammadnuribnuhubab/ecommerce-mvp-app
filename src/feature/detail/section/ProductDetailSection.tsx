@@ -13,6 +13,7 @@ import { AuthModal } from '@/feature/auth/widget/AuthModal';
 import { toast } from 'react-toastify';
 import type { ProductDetail } from '@/types/product';
 import { toTitleCase } from '@/utils/toTitleCase';
+import { useEffect } from 'react'; // pastikan sudah di-import
 
 type ProductDetailSectionProps = Pick<
   ProductDetail,
@@ -33,6 +34,7 @@ export const ProductDetailSection = ({
   const router = useRouter();
   const { session } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   const handleAddToCart = () => {
     if (!session) {
@@ -70,13 +72,26 @@ export const ProductDetailSection = ({
     router.push(`/checkout?${params.toString()}`);
   };
 
+  useEffect(() => {
+    if (showAuthModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Cleanup saat komponen di-unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showAuthModal]);
+
   return (
     <>
       {showAuthModal && (
         <AuthModal
-          mode='login'
+          mode={authMode}
           onClose={() => setShowAuthModal(false)}
-          onSwitchMode={(mode) => console.log('Switch to', mode)}
+          onSwitchMode={(mode) => setAuthMode(mode)}
         />
       )}
 

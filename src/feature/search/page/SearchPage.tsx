@@ -65,7 +65,7 @@ export const SearchPage = () => {
   return (
     <main
       className={clsx(
-        'container mx-auto px-4 min-h-screen',
+        'container mx-auto px-4 min-h-screen overflow-y-auto',
         !isEmptyPage && 'pt-22 sm:pt-28'
       )}
     >

@@ -22,19 +22,23 @@ export const CartPage = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  // Simulasi loading awal selama 1 detik, setelah itu scroll ke atas
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false);
+      window.scrollTo({ top: 0, behavior: 'auto' }); // Pindah scrollTo ke sini
     }, 1000);
 
     return () => clearTimeout(timeout);
   }, []);
 
+  // Fungsi perubahan jumlah item secara langsung
   const handleQuantityChange = (id: number, newQty: number) => {
     if (newQty < 1) return;
     updateQuantity(id, newQty);
   };
 
+  // Jika belum login, tampilkan halaman kosong
   if (!session) {
     return (
       <main className='container mx-auto px-4 min-h-screen'>
@@ -43,6 +47,7 @@ export const CartPage = () => {
     );
   }
 
+  // Jika selesai loading dan cart kosong, tampilkan halaman kosong
   if (!isLoading && cartItems.length === 0) {
     return (
       <main className='container mx-auto px-4 min-h-screen'>
@@ -51,6 +56,7 @@ export const CartPage = () => {
     );
   }
 
+  // Hitung status pemilihan dan total harga
   const isAllSelected = cartItems.every((item) => item.isSelected);
   const isAnySelected = cartItems.some((item) => item.isSelected);
   const selectedItems = cartItems.filter((item) => item.isSelected);
@@ -61,6 +67,7 @@ export const CartPage = () => {
 
   return (
     <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col lg:flex-row lg:justify-between lg:gap-6'>
+      {/* Daftar item keranjang */}
       <CartItemsSection
         isLoading={isLoading}
         isAllSelected={isAllSelected}
@@ -68,15 +75,14 @@ export const CartPage = () => {
         toggleSelectAll={toggleSelectAll}
         removeSelectedFromCart={removeSelectedFromCart}
         cartItems={cartItems}
-        onIncrement={(id: number) => incrementQuantity(id)}
-        onDecrement={(id: number) => decrementQuantity(id)}
-        onRemove={(id: number) => removeFromCart(id)}
-        onSelect={(id: number) => toggleSelect(id)}
-        onChangeQuantity={(id: number, qty: number) =>
-          handleQuantityChange(id, qty)
-        }
+        onIncrement={incrementQuantity}
+        onDecrement={decrementQuantity}
+        onRemove={removeFromCart}
+        onSelect={toggleSelect}
+        onChangeQuantity={handleQuantityChange}
       />
 
+      {/* Total belanja */}
       {isLoading ? (
         <div className='py-4 flex flex-col gap-4 border-3 rounded-2xl p-4 border-neutral-300 h-fit lg:w-2/5 animate-pulse'>
           <div className='h-6 bg-neutral-300 rounded w-1/3' />
