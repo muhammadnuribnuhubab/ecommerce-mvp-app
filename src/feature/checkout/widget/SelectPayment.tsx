@@ -62,6 +62,7 @@ export const SelectPayment = ({
                     height={40}
                     layout='intrinsic'
                     objectFit='contain'
+                    unoptimized
                   />
                 </div>
 

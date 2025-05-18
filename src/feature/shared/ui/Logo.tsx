@@ -19,6 +19,7 @@ export const Logo = () => {
           width={0}
           height={0}
           priority
+          unoptimized
         />
 
         <Typography

@@ -102,6 +102,7 @@ export const EmptyPage = ({ type, query }: EmptyPageProps) => {
           width={130}
           height={130}
           className='mx-auto size-50 md:size-60 object-cover'
+          unoptimized
         />
         <div className='flex flex-col items-center gap-1 text-center'>
           {renderContent()}

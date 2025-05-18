@@ -43,6 +43,7 @@ export const BannerSection = ({
                 fill
                 className='object-cover'
                 priority
+                unoptimized
               />
             </div>
           </SwiperSlide>

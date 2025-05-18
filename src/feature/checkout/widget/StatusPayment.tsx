@@ -49,6 +49,7 @@ export const StatusPayment = ({
               alt={isSuccess ? 'Success' : 'Failed'}
               fill
               className='object-contain'
+              unoptimized
             />
           </div>
         </div>

@@ -76,7 +76,13 @@ export const OrderItem = ({
         >
           <div className='flex gap-4 w-full'>
             <div className='relative w-full max-w-20 h-20 rounded overflow-hidden bg-white'>
-              <Image src={image} alt={title} fill className='object-contain' />
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className='object-contain'
+                unoptimized
+              />
             </div>
             <div className='flex flex-col'>
               <Typography weight='semibold'>
