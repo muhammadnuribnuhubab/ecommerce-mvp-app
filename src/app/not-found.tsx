@@ -1,7 +1,11 @@
-// src/app/not-found.tsx
-
-import { EmptyPage } from '@/feature/search/page/EmptyPage';
+// src/app/not-found.tsx (SERVER COMPONENT)
+import NotFoundClient from '@/feature/not-found/page/NotFoundClient';
+import { Suspense } from 'react';
 
 export default function NotFound() {
-  return <EmptyPage type='not-found' />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NotFoundClient />
+    </Suspense>
+  );
 }

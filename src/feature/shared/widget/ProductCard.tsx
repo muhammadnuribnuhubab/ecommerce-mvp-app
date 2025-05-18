@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Typography } from '../ui/Typography';
 import { Rating } from './Rating';
+import { motion } from 'framer-motion';
 
 type ProductCardProps = {
   image: string;
@@ -21,7 +22,11 @@ export const ProductCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className="w-full bg-white rounded-xl overflow-hidden shadow-2xl  transition-shadow duration-300">
+    <motion.div
+      whileHover={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      className="w-full bg-white rounded-xl overflow-hidden shadow-2xl transition-shadow duration-300"
+    >
       {/* FIXED HEIGHT wrapper */}
       <div className="relative w-full h-64 bg-white">
         {!isImageLoaded && (
@@ -32,7 +37,7 @@ export const ProductCard = ({
           alt={title}
           fill
           className={`
-            object-contain transition-opacity duration-500
+            object-contain transition-opacity duration-500 p-4
             ${isImageLoaded ? 'opacity-100' : 'opacity-0'}
           `}
           onLoad={() => setIsImageLoaded(true)}
@@ -45,6 +50,6 @@ export const ProductCard = ({
         <Typography weight="bold">${price}</Typography>
         <Rating value={rating} />
       </div>
-    </div>
+    </motion.div>
   );
 };

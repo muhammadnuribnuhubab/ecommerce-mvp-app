@@ -14,7 +14,7 @@ import {
   useUser,
 } from '@supabase/auth-helpers-react';
 import type { Session, User } from '@supabase/supabase-js';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/types/database.types';
 
 type AuthContextType = {
   session: Session | null;
@@ -26,8 +26,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const supabase = useSupabaseClient<Database>();
-  const session = useSession();  // Session | null
-  const user = useUser();        // User | null
+  const session = useSession(); // Session | null
+  const user = useUser(); // User | null
   const [profileName, setProfileName] = useState<string | null>(null);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
-// src/feature/cart/page/CartPage.tsx
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { EmptyPage } from '@/feature/search/page/EmptyPage';
@@ -9,8 +9,6 @@ import { TotalShopping } from '@/feature/shared/widget/TotalShopping';
 
 export const CartPage = () => {
   const { session } = useAuth();
-
-  // Ambil hanya fungsi yang ada di CartContextType
   const {
     cartItems,
     removeFromCart,
@@ -19,9 +17,23 @@ export const CartPage = () => {
     toggleSelect,
     toggleSelectAll,
     removeSelectedFromCart,
-    // kita perlu fungsi updateQuantity agar bisa langsung set qty custom
     updateQuantity,
   } = useCart();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const handleQuantityChange = (id: number, newQty: number) => {
+    if (newQty < 1) return;
+    updateQuantity(id, newQty);
+  };
 
   if (!session) {
     return (
@@ -31,13 +43,7 @@ export const CartPage = () => {
     );
   }
 
-  // Gunakan updateQuantity dari context
-  const handleQuantityChange = (id: number, newQty: number) => {
-    if (newQty < 1) return;
-    updateQuantity(id, newQty);
-  };
-
-  if (cartItems.length === 0) {
+  if (!isLoading && cartItems.length === 0) {
     return (
       <main className='container mx-auto px-4 min-h-screen'>
         <EmptyPage type='empty-cart' />
@@ -56,6 +62,7 @@ export const CartPage = () => {
   return (
     <main className='container mx-auto pt-22 sm:pt-28 px-4 min-h-screen flex flex-col lg:flex-row lg:justify-between lg:gap-6'>
       <CartItemsSection
+        isLoading={isLoading}
         isAllSelected={isAllSelected}
         isAnySelected={isAnySelected}
         toggleSelectAll={toggleSelectAll}
@@ -70,17 +77,33 @@ export const CartPage = () => {
         }
       />
 
-      <TotalShopping
-        totalPrice={totalPrice}
-        mode='cart'
-        items={selectedItems.map((item) => ({
-          title: item.title,
-          quantity: item.quantity,
-          price: item.price,
-        }))}
-        onCheckout={() => alert('Proceed to checkout')}
-        className='mt-6 lg:mt-0'
-      />
+      {isLoading ? (
+        <div className='py-4 flex flex-col gap-4 border-3 rounded-2xl p-4 border-neutral-300 h-fit lg:w-2/5 animate-pulse'>
+          <div className='h-6 bg-neutral-300 rounded w-1/3' />
+          <div className='space-y-2'>
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className='flex justify-between'>
+                <div className='w-1/2 h-3 bg-neutral-200 rounded' />
+                <div className='w-10 h-3 bg-neutral-300 rounded' />
+              </div>
+            ))}
+          </div>
+          <div className='h-4 bg-neutral-200 rounded w-2/3 mt-4' />
+          <div className='h-10 bg-neutral-300 rounded mt-4' />
+        </div>
+      ) : (
+        <TotalShopping
+          totalPrice={totalPrice}
+          mode='cart'
+          items={selectedItems.map((item) => ({
+            title: item.title,
+            quantity: item.quantity,
+            price: item.price,
+          }))}
+          onCheckout={() => alert('Proceed to checkout')}
+          className='mt-6 lg:mt-0'
+        />
+      )}
     </main>
   );
 };

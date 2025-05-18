@@ -1,13 +1,17 @@
 // src/app/search/page.tsx
 
-import type { Metadata } from 'next';
+import { SearchPage as SearchPageComponent } from '@/feature/search/page/SearchPage';
+import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Search | commercéll',
 };
 
-import { SearchPage as SearchPageComponent } from '@/feature/search/page/SearchPage';
-
-export default function SearchPage() {
-  return <SearchPageComponent />;
+export default function SearchPageRoute() {
+  return (
+    <Suspense fallback={<div>Loading search...</div>}>
+      <SearchPageComponent />
+    </Suspense>
+  );
 }

@@ -17,6 +17,7 @@ type TotalShoppingProps = {
   onCheckout?: () => void;
   items?: Item[];
   className?: string;
+  disabled?: boolean;
 };
 
 export const TotalShopping = ({
@@ -25,6 +26,7 @@ export const TotalShopping = ({
   mode,
   items = [],
   className,
+  disabled = false,
 }: TotalShoppingProps) => {
   const isCheckout = mode === 'checkout';
   const router = useRouter();
@@ -54,7 +56,7 @@ export const TotalShopping = ({
           {items.map((item, index) => (
             <div key={index} className='flex justify-between gap-6 text-sm'>
               <Typography>
-                {item.title} × {item.quantity}
+                {item.title} (${item.price} × {item.quantity})
               </Typography>
               <Typography weight='semibold'>
                 ${Number(item.price * item.quantity).toLocaleString()}
@@ -72,7 +74,7 @@ export const TotalShopping = ({
       <Button
         variant='primary'
         onClick={handleClick}
-        disabled={items.length === 0}
+        disabled={items.length === 0 || disabled}
         className='mt-4'
       >
         {isCheckout ? 'Select Payment Method' : 'Checkout'}

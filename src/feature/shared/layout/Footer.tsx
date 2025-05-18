@@ -32,7 +32,12 @@ export const Footer = () => {
               </Typography>
             </div>
             <Typography as='p' className='text-justify'>
-              commercéll is an MVP simulation of an e-commerce app that includes basic features like product browsing, cart management, and checkout. It&apos;s built to test ideas and core flows quickly.
+              commercéll is an MVP simulation of an e-commerce app that includes
+              basic features like view detailed product information, filter and
+              group products by category, product browsing, cart management, and
+              checkout. It also includes account features such as login,
+              register, and logout. It&apos;s built to test ideas and core flows
+              quickly.
             </Typography>
           </div>
 

@@ -1,5 +1,3 @@
-// src/lib/api.ts
-
 import { ProductDetail } from '@/types/product';
 
 export async function getProducts(): Promise<ProductDetail[]> {
@@ -18,12 +16,12 @@ export async function getProductsByCategory(
   return res.json();
 }
 
-export const searchProducts = async (query: string) => {
+export const searchProducts = async (query: string): Promise<ProductDetail[]> => {
   const res = await fetch(`https://fakestoreapi.com/products`);
   if (!res.ok) throw new Error('Failed to fetch products');
-  const products = await res.json();
+  const products: ProductDetail[] = await res.json();
 
-  return products.filter((product: any) =>
+  return products.filter((product) =>
     product.title.toLowerCase().includes(query.toLowerCase())
   );
 };

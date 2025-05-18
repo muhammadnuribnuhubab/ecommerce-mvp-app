@@ -3,7 +3,7 @@
 
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useAuth } from '@/context/AuthContext';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/types/database.types';
 
 export function useCartService() {
   const supabase = useSupabaseClient<Database>();

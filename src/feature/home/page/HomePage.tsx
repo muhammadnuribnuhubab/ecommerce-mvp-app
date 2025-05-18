@@ -1,3 +1,5 @@
+// src/feature/home/page/HomePage.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,11 +14,10 @@ const VISIBLE_COUNT_KEY = 'visibleProductCount';
 
 export const HomePage = () => {
   const [allProducts, setAllProducts] = useState<ProductDetail[]>([]);
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(10);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load visibleCount dari localStorage saat pertama kali komponen dimuat
   useEffect(() => {
     const savedCount = localStorage.getItem(VISIBLE_COUNT_KEY);
     if (savedCount) {
@@ -24,7 +25,6 @@ export const HomePage = () => {
     }
   }, []);
 
-  // Simpan visibleCount ke localStorage setiap kali berubah
   useEffect(() => {
     localStorage.setItem(VISIBLE_COUNT_KEY, String(visibleCount));
   }, [visibleCount]);
@@ -51,7 +51,7 @@ export const HomePage = () => {
   const hasMore = visibleCount < allProducts.length;
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 5);
+    setVisibleCount((prev) => prev + 10);
   };
 
   return (
@@ -62,6 +62,7 @@ export const HomePage = () => {
           { imageUrl: '/images/home/banner.svg', altText: 'Promo 2' },
           { imageUrl: '/images/home/banner.svg', altText: 'Promo 3' },
         ]}
+        isLoading={loading}
       />
 
       {error && <p className='text-center text-red-500'>{error}</p>}

@@ -10,7 +10,7 @@ import React, {
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useAuth } from '@/context/AuthContext';
 import { CartItem, CartItemUpsert } from '@/types/cart';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/types/database.types';
 
 // 1. Tambahkan di tipe:
 type CartContextType = {
@@ -38,7 +38,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const { data, error } = await supabase
       .from('cart_items')
       .select('*')
-      .eq('user_id', user.id);
+      .eq('user_id', user.id)
+      .order('id', { ascending: true }); // pastikan urutan konsisten
+
     if (error) {
       console.error('Failed to fetch cart:', error.message);
     } else {
@@ -140,21 +142,44 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const incrementQuantity = async (productId: number) => {
     const item = cartItems.find((i) => i.id === productId);
     if (!item) return;
-    await supabase
+
+    const newQuantity = item.quantity + 1;
+
+    const { error } = await supabase
       .from('cart_items')
-      .update({ quantity: item.quantity + 1 })
+      .update({ quantity: newQuantity })
       .eq('id', item.cartItemUuid);
-    await fetchCart();
+
+    if (!error) {
+      setCartItems((prev) =>
+        prev.map((i) =>
+          i.id === productId ? { ...i, quantity: newQuantity } : i
+        )
+      );
+    }
   };
 
   const decrementQuantity = async (productId: number) => {
     const item = cartItems.find((i) => i.id === productId);
-    if (!item || item.quantity <= 1) return;
-    await supabase
+    if (!item) return;
+
+    // Jika quantity sudah 1, jangan dikurangi lagi
+    if (item.quantity <= 1) return;
+
+    const newQuantity = item.quantity - 1;
+
+    const { error } = await supabase
       .from('cart_items')
-      .update({ quantity: item.quantity - 1 })
+      .update({ quantity: newQuantity })
       .eq('id', item.cartItemUuid);
-    await fetchCart();
+
+    if (!error) {
+      setCartItems((prev) =>
+        prev.map((i) =>
+          i.id === productId ? { ...i, quantity: newQuantity } : i
+        )
+      );
+    }
   };
 
   const toggleSelect = (productId: number) => {

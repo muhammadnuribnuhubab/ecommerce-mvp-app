@@ -1,3 +1,5 @@
+// src/feature/category/section/CategoryNavigationSection.tsx
+
 'use client';
 
 import { Breadcrumb } from '@/feature/shared/widget/BreadCrumb';
@@ -17,7 +19,7 @@ export const CategoryNavigationSection = ({
   onSelect,
 }: CategoryNavigationSectionProps) => {
   return (
-    <section className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between '>
+    <section className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
       <Breadcrumb items={breadcrumbItems} />
       <div className='w-full sm:w-60'>
         <CategoryDropdown

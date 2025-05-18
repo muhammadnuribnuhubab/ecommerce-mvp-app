@@ -61,6 +61,57 @@ export type Database = {
           }
         ];
       };
+
+      shipping_addresses: {
+        Row: {
+          id: string;
+          user_id: string;
+          full_name: string;
+          phone_number: string;
+          address: string;
+          district: string;
+          city: string;
+          province: string;
+          postal_code: string;
+          country: string;
+          notes: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          full_name: string;
+          phone_number: string;
+          address: string;
+          district: string;
+          city: string;
+          province: string;
+          postal_code: string;
+          country: string;
+          notes?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          full_name?: string;
+          phone_number?: string;
+          address?: string;
+          district?: string;
+          city?: string;
+          province?: string;
+          postal_code?: string;
+          country?: string;
+          notes?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'shipping_addresses_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
     };
   };
 };

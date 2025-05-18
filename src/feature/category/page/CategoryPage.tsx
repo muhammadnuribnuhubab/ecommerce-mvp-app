@@ -10,13 +10,6 @@ import { toTitleCase } from '@/utils/toTitleCase';
 import { SkeletonCard } from '@/feature/shared/widget/SkeletonCard';
 import { categories } from '@/types/categories';
 
-// const categories = [
-//   { label: 'Mens Clothing', apiKey: "men's clothing" },
-//   { label: 'Jewelery', apiKey: 'jewelery' },
-//   { label: 'Electronics', apiKey: 'electronics' },
-//   { label: 'Womens Clothing', apiKey: "women's clothing" },
-// ];
-
 export const CategoryPage = () => {
   const params = useParams();
   const categoryParam = params.category as string;

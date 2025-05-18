@@ -5,7 +5,12 @@ export const metadata: Metadata = {
 };
 
 import { CheckoutPage as CheckoutPageComponent } from '@/feature/checkout/page/CheckoutPage';
+import { Suspense } from 'react';
 
 export default function CheckoutPage() {
-  return <CheckoutPageComponent />;
+  return (
+    <Suspense fallback={<div>Loading categories...</div>}>
+      <CheckoutPageComponent />
+    </Suspense>
+  );
 }

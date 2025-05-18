@@ -1,13 +1,16 @@
 // src/app/cart/page.tsx
-
-import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import { CartPage } from '@/feature/cart/page/CartPage';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Cart | commercéll',
 };
 
-import { CartPage as CartPageComponent } from '@/feature/cart/page/CartPage';
-
-export default function CartPage() {
-  return <CartPageComponent />;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading cart...</div>}>
+      <CartPage />
+    </Suspense>
+  );
 }

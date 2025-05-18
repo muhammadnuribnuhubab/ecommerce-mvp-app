@@ -1,22 +1,32 @@
+// src/feature/category/widget/CategoryDropdown.tsx
+
 'use client';
 
 import { ChevronIcon } from '@/feature/shared/ui/Icon';
 import { useState } from 'react';
 import { Checkbox } from '@/feature/shared/ui/Checkbox';
 import { useRouter, usePathname } from 'next/navigation';
-import { categories } from '@/types/categories';
 
-export const CategoryDropdown = () => {
+type CategoryDropdownProps = {
+  categories: string[];
+  selected: string[];
+  onSelect: (category: string) => void;
+};
+
+export const CategoryDropdown = ({
+  categories,
+  selected,
+  onSelect,
+}: CategoryDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  // Ambil segmen terakhir URL, misal "mens clothing" atau "electronics"
   const currentCategory = decodeURIComponent(pathname.split('/').pop() || '');
 
-  const handleCategoryClick = (apiKey: string) => {
-    // Push dengan encodeURIComponent => spasi jadi %20
-    router.push(`/category/${encodeURIComponent(apiKey)}`);
+  const handleCategoryClick = (category: string) => {
+    onSelect(category);
+    router.push(`/category/${encodeURIComponent(category)}`);
     setIsOpen(false);
   };
 
@@ -34,22 +44,23 @@ export const CategoryDropdown = () => {
 
       {isOpen && (
         <ul className='absolute z-10 mt-2 w-full bg-white border rounded-lg shadow-md max-h-64 overflow-y-auto'>
-          {categories.map(({ label, apiKey }) => {
+          {categories.map((category) => {
             const isActive =
-              currentCategory.toLowerCase() === apiKey.toLowerCase();
+              selected.includes(category) ||
+              currentCategory.toLowerCase() === category.toLowerCase();
 
             return (
-              <li key={apiKey}>
+              <li key={category}>
                 <button
-                  onClick={() => handleCategoryClick(apiKey)}
+                  onClick={() => handleCategoryClick(category)}
                   className='w-full flex items-center gap-2 px-4 py-2 hover:bg-neutral-100'
                 >
                   <Checkbox
                     checked={isActive}
-                    onChange={() => handleCategoryClick(apiKey)}
-                    name={apiKey}
+                    onChange={() => handleCategoryClick(category)}
+                    name={category}
                   />
-                  {label}
+                  {category}
                 </button>
               </li>
             );

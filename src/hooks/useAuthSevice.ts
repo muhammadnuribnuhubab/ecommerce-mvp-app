@@ -1,7 +1,7 @@
 // src/hooks/useAuthService.ts
 'use client';
 
-import { Database } from '@/types/supabase';
+import { Database } from '@/types/database.types';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 export function useAuthService() {

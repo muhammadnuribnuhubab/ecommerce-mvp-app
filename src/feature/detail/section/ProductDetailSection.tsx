@@ -80,7 +80,7 @@ export const ProductDetailSection = ({
         />
       )}
 
-      <div className='flex flex-col lg:flex-row gap-6'>
+      <div className='flex flex-col lg:flex-row gap-10'>
         <div className='relative w-full lg:w-2/5 bg-white flex items-center justify-center'>
           <Image
             src={image}

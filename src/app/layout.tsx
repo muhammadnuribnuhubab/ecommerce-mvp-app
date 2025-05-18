@@ -6,8 +6,8 @@ import { Footer } from '@/feature/shared/layout/Footer';
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 
-import { useState } from 'react';
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { Suspense, useState } from 'react';
+import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+  const [supabaseClient] = useState(() => createPagesBrowserClient());
 
   return (
     <html lang='en'>
@@ -23,7 +23,11 @@ export default function RootLayout({
         <SessionContextProvider supabaseClient={supabaseClient}>
           <AuthProvider>
             <CartProvider>
-              <Header />
+              <Suspense
+                fallback={<div className='p-4'>Loading navigation…</div>}
+              >
+                <Header />
+              </Suspense>
               {children}
               <Footer />
             </CartProvider>
