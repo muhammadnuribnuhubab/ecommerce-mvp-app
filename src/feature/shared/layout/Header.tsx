@@ -28,7 +28,7 @@ export const Header = () => {
 
   useEffect(() => {
     // Menambahkan style overflow hidden pada body ketika modal atau menu dibuka
-    if (isMenuOpen || isSearchOpen || authModal) {
+    if (isMenuOpen || authModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -37,7 +37,7 @@ export const Header = () => {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isMenuOpen, isSearchOpen, authModal]);
+  }, [isMenuOpen, authModal]);
 
   useEffect(() => {
     if (isSearchOpen && inputRef.current) {
