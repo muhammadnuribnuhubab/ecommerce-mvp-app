@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function CategoryPage() {
   return (
-    <Suspense fallback={<div>Loading categories...</div>}>
+    <Suspense>
       <CategoryPageComponenet />
     </Suspense>
   );

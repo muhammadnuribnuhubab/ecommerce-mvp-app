@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div>Loading categories...</div>}>
+    <Suspense>
       <CheckoutPageComponent />
     </Suspense>
   );

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Loading cart...</div>}>
+    <Suspense>
       <CartPage />
     </Suspense>
   );

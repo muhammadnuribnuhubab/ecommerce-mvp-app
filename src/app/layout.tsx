@@ -24,7 +24,13 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <Suspense
-                fallback={<div className='p-4'>Loading navigation…</div>}
+                fallback={
+                  <div className='flex min-h-screen items-center justify-center bg-white'>
+                    <div className='flex flex-col items-center gap-4 text-neutral-600 animate-pulse'>
+                      <div className='w-10 h-10 border-4 border-t-transparent border-gray-400 rounded-full animate-spin' />
+                    </div>
+                  </div>
+                }
               >
                 <Header />
               </Suspense>

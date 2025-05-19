@@ -12,7 +12,7 @@ const SearchPageClient = dynamic(
 
 export function SearchWrapper() {
   return (
-    <Suspense fallback={<div>Loading search...</div>}>
+    <Suspense>
       <SearchPageClient />
     </Suspense>
   );

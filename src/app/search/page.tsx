@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function SearchPageRoute() {
   return (
-    <Suspense fallback={<div>Loading search...</div>}>
+    <Suspense>
       <SearchPageComponent />
     </Suspense>
   );
