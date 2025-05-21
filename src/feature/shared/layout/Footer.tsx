@@ -32,12 +32,9 @@ export const Footer = () => {
               </Typography>
             </div>
             <Typography as='p' className='text-justify'>
-              commercell is an MVP simulation of an e-commerce app that includes
-              basic features like view detailed product information, filter and
-              group products by category, product browsing, cart management, and
-              checkout. It also includes account features such as login,
-              register, and logout. It&apos;s built to test ideas and core flows
-              quickly.
+              An MVP simulation of an e-commerce app with essential features
+              like product browsing, category filters, cart, checkout, and user
+              authentication.
             </Typography>
           </div>
 
@@ -47,7 +44,7 @@ export const Footer = () => {
             </Typography>
             <div className='flex gap-3 md:gap-4'>
               <Link
-                href='https://github.com/muhammadnuribnuhubab'
+                href='https://github.com/nuribnuu'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='p-3 border border-neutral-300 rounded-full hover:bg-neutral-300 transition'
