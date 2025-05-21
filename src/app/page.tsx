@@ -1,7 +1,7 @@
 // src/app/page.tsx
 
 export const metadata: Metadata = {
-  title: 'commercéll',
+  title: 'commercell',
 };
 
 import { HomePage as HomePageComponent } from '@/feature/home/page/HomePage';

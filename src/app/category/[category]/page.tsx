@@ -5,7 +5,7 @@ import { CategoryPage as CategoryPageComponenet } from '@/feature/category/page/
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Category | commercéll',
+  title: 'Category | commercell',
 };
 
 export default function CategoryPage() {

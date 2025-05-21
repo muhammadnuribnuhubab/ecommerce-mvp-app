@@ -28,11 +28,11 @@ export const Footer = () => {
                 weight='bold'
                 className='inline xl:hidden'
               >
-                commercéll
+                commercell
               </Typography>
             </div>
             <Typography as='p' className='text-justify'>
-              commercéll is an MVP simulation of an e-commerce app that includes
+              commercell is an MVP simulation of an e-commerce app that includes
               basic features like view detailed product information, filter and
               group products by category, product browsing, cart management, and
               checkout. It also includes account features such as login,

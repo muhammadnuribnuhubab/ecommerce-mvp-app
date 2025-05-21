@@ -4,7 +4,7 @@ import { CartPage } from '@/feature/cart/page/CartPage';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Cart | commercéll',
+  title: 'Cart | commercell',
 };
 
 export default function Page() {

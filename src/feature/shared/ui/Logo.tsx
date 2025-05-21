@@ -28,7 +28,7 @@ export const Logo = () => {
           weight='bold'
           className='hidden xl:inline'
         >
-          commercéll
+          commercell
         </Typography>
       </Link>
     </div>

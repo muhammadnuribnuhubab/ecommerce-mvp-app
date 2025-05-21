@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { DetailPage } from '@/feature/detail/page/DetailPage';
 
 export const metadata: Metadata = {
-  title: 'Detail | commercéll',
+  title: 'Detail | commercell',
 };
 
 export default async function DetailPageWrapper({

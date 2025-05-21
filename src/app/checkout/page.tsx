@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Checkout | commercéll',
+  title: 'Checkout | commercell',
 };
 
 import { CheckoutPage as CheckoutPageComponent } from '@/feature/checkout/page/CheckoutPage';
