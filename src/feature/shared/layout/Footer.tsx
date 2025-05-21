@@ -32,7 +32,7 @@ export const Footer = () => {
               </Typography>
             </div>
             <Typography as='p' className='text-justify'>
-              An MVP simulation of an e-commerce app with essential features
+              A MVP simulation of an e-commerce app with essential features
               like product browsing, category filters, cart, checkout, and user
               authentication.
             </Typography>

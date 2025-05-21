@@ -1,6 +1,8 @@
 # 🛒 Ecommerce MVP App
 
-An MVP simulation of an e-commerce app with essential features like product browsing, category filters, cart, checkout, and user authentication.
+A MVP simulation of an e-commerce app with essential features
+like product browsing, category filters, cart, checkout, and user
+authentication.
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000?logo=vercel&logoColor=white)](https://vercel.com/)
 [![Next.js](https://img.shields.io/badge/Built%20with-Next.js-000?logo=next.js)](https://nextjs.org)
@@ -11,29 +13,35 @@ An MVP simulation of an e-commerce app with essential features like product brow
 ## 🚀 Features
 
 ### 🏠 Home Page
+
 - Browse featured and trending products
 - Product cards with images, names, and prices
 - Live search functionality
 
 ### 📄 Product Detail Page
+
 - Complete product info (image, price, description, stock)
 - Add to cart functionality
 - Related products section
 
 ### 🛒 Cart System
+
 - Add/remove products from cart
 - View cart summary and total
 - Responsive cart drawer or page
 
 ### 🔐 Authentication
+
 - Sign up, sign in, and sign out (powered by Supabase)
 - Protected routes for user account
 
 ### 👤 User Account
+
 - View order history (if implemented)
 - Manage profile information
 
 ### 🖼️ UI & Experience
+
 - Responsive design for all devices
 - Smooth transitions and animations (Framer Motion)
 - Accessible and keyboard-friendly navigation
