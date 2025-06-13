@@ -12,6 +12,7 @@ import {
   WhatsAppIcon,
   MailIcon,
 } from '../ui/Icon';
+import { GlobeIcon } from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -44,6 +45,14 @@ export const Footer = () => {
             </Typography>
             <div className='flex gap-3 md:gap-4'>
               <Link
+                href='https://nuribnuu.vercel.app'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='p-3 border border-neutral-300 rounded-full hover:bg-neutral-300 transition'
+              >
+                <GlobeIcon className='size-5 text-primary-300' />
+              </Link>
+              <Link
                 href='https://github.com/nuribnuu'
                 target='_blank'
                 rel='noopener noreferrer'
@@ -68,7 +77,7 @@ export const Footer = () => {
                 <InstagramIcon className='size-5 text-primary-300' />
               </Link>
               <Link
-                href='https://wa.me/6282324687119'
+                href='https://wa.me/6285866473926'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='p-3 border border-neutral-300 rounded-full hover:bg-neutral-300 transition'
